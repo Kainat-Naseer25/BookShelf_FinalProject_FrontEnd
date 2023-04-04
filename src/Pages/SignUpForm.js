@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import "../App.css";
 
 function SignUpForm() {
   const [formData, setFormData] = useState({
@@ -75,22 +76,6 @@ function SignUpForm() {
             value={formData.email}
             onChange={handleChange}
           />
-        </div>
-
-        <div className="formField">
-          <label className="formFieldCheckboxLabel">
-            <input
-              className="formFieldCheckbox"
-              type="checkbox"
-              name="hasAgreed"
-              value={formData.hasAgreed}
-              onChange={handleChange}
-            />{" "}
-            I agree all statements in{" "}
-            <a href="null" className="formFieldTermsLink">
-              terms of service
-            </a>
-          </label>
         </div>
 
         <div className="formField">

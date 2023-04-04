@@ -1,9 +1,9 @@
 import React from 'react';
 import { useState } from "react";
+import library from "./Pages/library.jpg";
 import { Route, Routes, BrowserRouter, NavLink } from "react-router-dom";
 import SignUpForm from "./Pages/SignUpForm";
 import SignInForm from "./Pages/SignInForm";
-
 import "./App.css";
 
 function App() {
@@ -14,9 +14,12 @@ function App() {
   };
 
   return (
+
     <BrowserRouter>
       <div className="App">
-        <div className="appAside" />
+        <div className="appAside">
+        <img src={library} alt="Description of the image" style={{ height: "100%", width: "100%" }}/>
+        </div>
         <div className="appForm">
           <div className="pageSwitcher">
             <NavLink

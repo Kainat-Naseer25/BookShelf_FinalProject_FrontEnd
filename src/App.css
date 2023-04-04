@@ -1,25 +1,28 @@
 .App {
   height: 100vh;
+  padding: 50px;
   display: flex;
   color: white;
 }
 
 .appAside {
-  width: 50%;
-  background-color: #6b5b95;
+  width: 60%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 }
 
 .appForm {
-  width: 50%;
+  width: 40%;
   background-color: #12130f;
   padding: 25px 40px;
-  overflow: auto;
+  overflow: hidden;
 }
 
 .pageSwitcher {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 10%;
 }
 
 .pageSwitcherItem {
@@ -141,6 +144,3 @@
   margin-left: 5px;
 }
 
-.socialMediaButtons {
-  padding: 10px 100px 10px 0px;
-}
