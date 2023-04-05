@@ -1,16 +1,15 @@
 .App {
   height: 100vh;
-  padding: 50px;
   display: flex;
-  color: white;
+  padding: 40px;
+  padding-left: 150px;
+  padding-right: 150px;
+  border-radius: 100px;
 }
 
 .appAside {
   width: 60%;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
 }
 
 .appForm {
@@ -18,6 +17,8 @@
   background-color: #12130f;
   padding: 25px 40px;
   overflow: hidden;
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
 }
 
 .pageSwitcher {
@@ -61,25 +62,8 @@
   margin-bottom: 50px;
 }
 
-.formTitleLink {
-  color: #707c8b;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 1.7em;
-  margin: 0 10px;
-  padding-bottom: 5px;
-}
-
-.formTitleLink:first-child {
-  margin-left: 0;
-}
-
-.formTitleLink-active {
-  color: white;
-  border-bottom: 1px solid #6b5b95;
-}
-
 .formField {
+  margin-top: 40px;
   margin-bottom: 40px;
 }
 
@@ -144,3 +128,6 @@
   margin-left: 5px;
 }
 
+.socialMediaButtons {
+  padding: 10px 100px 10px 0px;
+}

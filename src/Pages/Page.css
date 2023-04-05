@@ -1,0 +1,17 @@
+.formTitleLink {
+    color: #707c8b;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1.7em;
+    margin: 0 10px;
+    padding-bottom: 5px;
+  }
+  
+  .formTitleLink:first-child {
+    margin-left: 0;
+  }
+  
+  .formTitleLink-active {
+    color: white;
+    border-bottom: 1px solid #6b5b95;
+  }

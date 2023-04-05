@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import "../App.css";
+import "./Page.css";
 
 function SignUpForm() {
   const [formData, setFormData] = useState({
@@ -31,11 +31,11 @@ function SignUpForm() {
   return (
     <div className="formCenter">
       <form onSubmit={handleSubmit} className="formFields">
-        <div className="formField">
-        <div activeclassname="formTitleLink-active" className="formTitleLink">
+      <div activeclassname="formTitleLink-active" className="formTitleLink">
         Sign Up
         </div>
         {" "}
+        <div className="formField">
           <label className="formFieldLabel" htmlFor="name">
             Full Name
           </label>

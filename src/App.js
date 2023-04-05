@@ -1,9 +1,12 @@
 import React from 'react';
 import { useState } from "react";
-import library from "./Pages/library.jpg";
 import { Route, Routes, BrowserRouter, NavLink } from "react-router-dom";
 import SignUpForm from "./Pages/SignUpForm";
 import SignInForm from "./Pages/SignInForm";
+import library from "./Pages/library.jpg";
+// import DataForm from "./Form/Form.js";
+// import UserCard from "./Cards/Bookcard.js";
+
 import "./App.css";
 
 function App() {
@@ -14,11 +17,15 @@ function App() {
   };
 
   return (
-
+    // <div>
+    //   <DataForm />
+    //   <UserCard />
+    // </div>
     <BrowserRouter>
       <div className="App">
         <div className="appAside">
-        <img src={library} alt="Description of the image" style={{ height: "100%", width: "100%" }}/>
+        <img src={library} alt='Picture not showing' style={{ width: "100%", borderTopLeftRadius: "30px",
+  borderBottomLeftRadius: "30px"}}/>
         </div>
         <div className="appForm">
           <div className="pageSwitcher">
