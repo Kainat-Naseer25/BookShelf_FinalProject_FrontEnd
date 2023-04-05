@@ -1,25 +1,29 @@
 .App {
   height: 100vh;
   display: flex;
-  color: white;
+  padding: 40px;
+  padding-left: 150px;
+  padding-right: 150px;
+  border-radius: 100px;
 }
 
 .appAside {
-  width: 50%;
-  background-color: #6b5b95;
+  width: 60%;
+  display: flex;
 }
 
 .appForm {
-  width: 50%;
+  width: 40%;
   background-color: #12130f;
   padding: 25px 40px;
-  overflow: auto;
+  overflow: hidden;
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
 }
 
 .pageSwitcher {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 10%;
 }
 
 .pageSwitcherItem {
@@ -58,25 +62,8 @@
   margin-bottom: 50px;
 }
 
-.formTitleLink {
-  color: #707c8b;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 1.7em;
-  margin: 0 10px;
-  padding-bottom: 5px;
-}
-
-.formTitleLink:first-child {
-  margin-left: 0;
-}
-
-.formTitleLink-active {
-  color: white;
-  border-bottom: 1px solid #6b5b95;
-}
-
 .formField {
+  margin-top: 40px;
   margin-bottom: 40px;
 }
 

@@ -1,10 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-
-import {
-  FacebookLoginButton,
-  InstagramLoginButton
-} from "react-social-login-buttons";
+import "./Page.css";
 
 function SignInForm() {
   const [formData, setFormData] = useState({
@@ -74,15 +70,6 @@ function SignInForm() {
           </Link>
         </div>
 
-        <div className="socialMediaButtons">
-          <div className="facebookButton">
-            <FacebookLoginButton onClick={() => alert("Hello")} />
-          </div>
-
-          <div className="instagramButton">
-            <InstagramLoginButton onClick={() => alert("Hello")} />
-          </div>
-        </div>
       </form>
     </div>
   );
