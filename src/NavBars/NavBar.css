@@ -1,0 +1,43 @@
+.navbar {
+  background-color: white;
+}
+.navtext {
+  color: #6b5b95;
+  text-decoration: solid;
+}
+.navbtn {
+  background-color: white;
+  color: #6b5b95;
+}
+.tabs {
+  font-family: arial;
+  margin: 0 auto;
+  width: 70%;
+  text-align: center;
+}
+
+.tab-buttons {
+  margin-bottom: 50px;
+}
+
+button {
+  margin-right: 15px;
+  font-size: 17px;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  color: #6b5b95;
+  transition: all ease-in-out 0.2s;
+  border-bottom: 2px solid transparent;
+}
+
+.border-gradient {
+  border-bottom: 2px solid;
+  border-image-slice: 1;
+  border-width: 2px;
+}
+.border-gradient-purple {
+  border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
+}

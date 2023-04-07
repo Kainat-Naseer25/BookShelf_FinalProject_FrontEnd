@@ -1,8 +1,12 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import "./Page.css";
 
 function SignInForm() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [formData, setFormData] = useState({
     email: "",
     password: ""
@@ -22,6 +26,25 @@ function SignInForm() {
   const handleSubmit = (event) => {
     event.preventDefault();
 
+    fetch("http://localhost:8000/login",
+      {
+        method: "POST",
+        credentials: "include",
+
+        body: JSON.stringify(formData),
+        headers: {
+          "Content-Type": "application/json"
+        },
+      })
+      .then((response) => response.json())
+      .then((data) => {
+        dispatch({ type: "LOGIN", payload: data });
+        console.log(data);
+        navigate('/');
+      })
+      .catch((error) => {
+        console.log(error)
+      });
     console.log("The form was submitted with the following data:");
     console.log(formData);
   };
@@ -65,7 +88,7 @@ function SignInForm() {
 
         <div className="formField">
           <button className="formFieldButton">Sign In</button>{" "}
-          <Link to="/" className="formFieldLink">
+          <Link to="/auth/signup" className="formFieldLink">
             Create an account
           </Link>
         </div>
