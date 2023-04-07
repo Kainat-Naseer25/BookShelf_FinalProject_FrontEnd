@@ -8,12 +8,12 @@
 }
 
 .appAside {
-  width: 60%;
+  width: 55%;
   display: flex;
 }
 
 .appForm {
-  width: 40%;
+  width: 45%;
   background-color: #12130f;
   padding: 25px 40px;
   overflow: hidden;
@@ -130,4 +130,8 @@
 
 .socialMediaButtons {
   padding: 10px 100px 10px 0px;
+}
+
+.customCursor:hover{
+  cursor: pointer;
 }

@@ -1,18 +1,20 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import "./Page.css";
 
 function SignUpForm() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    name: "",
-    hasAgreed: false,
+    fullname: "",
   });
 
   const handleChange = (event) => {
     const target = event.target;
-    const value = target.type === "checkbox" ? target.checked : target.value;
+    const value =  target.value;
     const name = target.name;
 
     setFormData({
@@ -24,6 +26,27 @@ function SignUpForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    fetch("http://localhost:8000/signup",
+      {
+        method: "POST",
+        credentials: "include",
+
+        body: JSON.stringify(formData),
+        headers: {
+          "Content-Type": "application/json"
+        },
+      })
+      .then((response) => response.json())
+      .then((data) => {
+        dispatch({ type: "LOGIN", payload: data });
+        console.log("sign up done");
+        console.log(data);
+        navigate('/');
+      })
+      .catch((error) => {
+        console.log(error)
+      });
+      
     console.log("The form was submitted with the following data:");
     console.log(formData);
   };
@@ -36,16 +59,16 @@ function SignUpForm() {
         </div>
         {" "}
         <div className="formField">
-          <label className="formFieldLabel" htmlFor="name">
+          <label className="formFieldLabel" htmlFor="fullname">
             Full Name
           </label>
           <input
             type="text"
-            id="name"
+            id="fullname"
             className="formFieldInput"
             placeholder="Enter your full name"
-            name="name"
-            value={formData.name}
+            name="fullname"
+            value={formData.fullname}
             onChange={handleChange}
           />
         </div>
@@ -80,7 +103,7 @@ function SignUpForm() {
 
         <div className="formField">
           <button className="formFieldButton">Sign Up</button>{" "}
-          <Link to="/sign-in" className="formFieldLink">
+          <Link to="/auth/signin" className="formFieldLink">
             I'm already member
           </Link>
         </div>
