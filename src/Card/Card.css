@@ -1,0 +1,36 @@
+.image{
+    padding: 60px;
+    height: 60vh;
+}
+.mainRow{
+    padding-top: 10px;
+    text-align: center;
+}
+.book-price-text {
+    color: #2a9f1d;
+    font-family: "Poppins";
+    font-size: 14px;
+    font-weight: 500;
+}
+.book_rating {
+    color: #444;
+    font-size: 12px;
+}
+.poppins_light {
+    font-family: poppins;
+    font-weight: 300;
+}
+.rounded-pill .private {
+    border: 3px solid transparent;
+    border-image: linear-gradient(to left, #743ad5, #d53a9d) 1;
+    background-color: #fff;
+    color: #000;
+    border-radius: 10px;
+}
+.gradient-button {
+    background: linear-gradient(to left, #743ad5, #d53a9d);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 25px;
+    border: none;
+}
