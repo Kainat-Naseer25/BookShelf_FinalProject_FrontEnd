@@ -8,9 +8,15 @@ import SignInForm from "./Authentication/SignInForm.js";
 import SignUpForm from "./Authentication/SignUpForm.js";
 import Dashboard from "./Dashboard.js";
 
+import { QueryClient, QueryClientProvider } from 'react-query';
+
+const queryClient = new QueryClient();
+
 function App() {
   return (
-      <ViewDescription/>
+    <QueryClientProvider client={queryClient}>
+      <BooksCard />
+    </QueryClientProvider>
 
     // <BrowserRouter>
     //   <Routes>
