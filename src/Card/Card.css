@@ -1,8 +1,6 @@
 .card {
   width: 250px;
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
+  height: 650px;
   max-width: 1200px;
   margin: 0 auto;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
@@ -31,10 +29,11 @@
   position: absolute;
   bottom: -30px;
   right: 100px;
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   z-index: 1;
+  background-color: white;
 }
 .card-image1:hover {
   transform: scale(1.1);
@@ -58,10 +57,18 @@
   color: #444;
   font-size: 12px;
 }
-.gradient-button {
+.gradient-btn {
   background: linear-gradient(to left, #743ad5, #d53a9d);
   color: #fff;
-  padding: 10px 20px;
+  margin-bottom: 40px;
   border-radius: 25px;
   border: none;
+}
+
+.bottom {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 80%;
+  transform: translateX(-50%);
 }

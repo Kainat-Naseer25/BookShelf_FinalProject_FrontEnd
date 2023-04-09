@@ -40,8 +40,8 @@ function MainNavBar() {
           alt="logo"
           src={logo}
           style={{
-            height: 40,
-            width: 40,
+            height: 60,
+            width: 60,
           }}
         />
         <NavbarText className="navtext"> Book Shelf </NavbarText>
@@ -55,13 +55,13 @@ function MainNavBar() {
           alt=""
           src={login}
           style={{
-            height: 40,
-            width: 40,
+            height: 60,
+            width: 60,
           }}
           onClick={navigateToLogin}
         />{" "}
-        {!logIn && <NavbarText onClick={navigateToLogin}> Login </NavbarText>}
-        {logIn && <NavbarText onClick={Logout}> Logout </NavbarText>}
+        {!logIn && <NavbarText className="navtext" onClick={navigateToLogin}> Login </NavbarText>}
+        {logIn && <NavbarText className="navtext" onClick={Logout}> Logout </NavbarText>}
       </NavbarText>
     </Navbar>
   );

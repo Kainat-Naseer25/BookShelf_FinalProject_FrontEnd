@@ -3,7 +3,6 @@ import addbtn from "./button.png";
 import DataForm from "../Form/form";
 import BooksCard from "../Card/Card";
 import "../App.css";
-import BooksCard from "../Card/Card";
 
 const PrivateLibrary = (props) => {
     const [showModal, setShowModal] = useState(false);
