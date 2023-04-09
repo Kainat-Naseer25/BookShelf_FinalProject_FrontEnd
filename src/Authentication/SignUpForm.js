@@ -2,10 +2,14 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import "./Page.css";
+import { Alert } from "react-bootstrap";
 
 function SignUpForm() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { loginError } = useSelector((state) => ({
+    loginError: state.appReducer.loginError,
+  }));
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -14,7 +18,7 @@ function SignUpForm() {
 
   const handleChange = (event) => {
     const target = event.target;
-    const value =  target.value;
+    const value = target.value;
     const name = target.name;
 
     setFormData({
@@ -26,27 +30,28 @@ function SignUpForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    fetch("http://localhost:8000/signup",
-      {
-        method: "POST",
-        credentials: "include",
+    fetch("http://localhost:8000/users/signup", {
+      method: "POST",
+      credentials: "include",
 
-        body: JSON.stringify(formData),
-        headers: {
-          "Content-Type": "application/json"
-        },
-      })
+      body: JSON.stringify(formData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
       .then((response) => response.json())
       .then((data) => {
         dispatch({ type: "LOGIN", payload: data });
+        dispatch({ type: "LOGIN-ERROR" });
         console.log("sign up done");
         console.log(data);
-        navigate('/');
+        navigate("/");
       })
       .catch((error) => {
-        console.log(error)
+        dispatch({ type: "LOGIN-ERROR" });
+        console.log(error);
       });
-      
+
     console.log("The form was submitted with the following data:");
     console.log(formData);
   };
@@ -54,10 +59,9 @@ function SignUpForm() {
   return (
     <div className="formCenter">
       <form onSubmit={handleSubmit} className="formFields">
-      <div activeclassname="formTitleLink-active" className="formTitleLink">
-        Sign Up
-        </div>
-        {" "}
+        <div activeclassname="formTitleLink-active" className="formTitleLink">
+          Sign Up
+        </div>{" "}
         <div className="formField">
           <label className="formFieldLabel" htmlFor="fullname">
             Full Name
@@ -100,7 +104,11 @@ function SignUpForm() {
             onChange={handleChange}
           />
         </div>
-
+        {loginError && (
+          <Alert color="danger">
+            There is a problem in SignUp! Check credentials.
+          </Alert>
+        )}
         <div className="formField">
           <button className="formFieldButton">Sign Up</button>{" "}
           <Link to="/auth/signin" className="formFieldLink">

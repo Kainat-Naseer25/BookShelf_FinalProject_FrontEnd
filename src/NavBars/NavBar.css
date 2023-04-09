@@ -4,6 +4,7 @@
 .navtext {
   color: #6b5b95;
   text-decoration: solid;
+  font-size: larger;
 }
 .navbtn {
   background-color: white;
@@ -12,7 +13,7 @@
 .tabs {
   font-family: arial;
   margin: 0 auto;
-  width: 70%;
+  width: 100%;
   text-align: center;
 }
 

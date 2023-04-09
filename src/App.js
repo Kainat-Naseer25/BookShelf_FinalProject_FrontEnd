@@ -7,26 +7,23 @@ import Authentication from "./Authentication/Authentication";
 import SignInForm from "./Authentication/SignInForm.js";
 import SignUpForm from "./Authentication/SignUpForm.js";
 import Dashboard from "./Dashboard.js";
-
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { QueryClient, QueryClientProvider } from "react-query";
 
 const queryClient = new QueryClient();
 
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <BooksCard />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/auth" element={<Authentication />}>
+            <Route path="signin" element={<SignInForm />} />
+            <Route path="signup" element={<SignUpForm />} />
+          </Route>
+          <Route path="/" element={<Dashboard />} />
+        </Routes>
+      </BrowserRouter>
     </QueryClientProvider>
-
-    // <BrowserRouter>
-    //   <Routes>
-    //     <Route path="/auth" element={<Authentication />} >
-    //       <Route path="signin" element={<SignInForm />} />
-    //       <Route path="signup" element={<SignUpForm />} />
-    //     </Route>
-    //     <Route path="/" element={<Dashboard />} />
-    //   </Routes>
-    // </BrowserRouter>
   );
 }
 

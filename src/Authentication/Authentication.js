@@ -2,12 +2,16 @@ import React from "react";
 import { useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import library from "./library.jpg";
+import { useDispatch } from "react-redux";
 
 const Authentication = () => {
+  const dispatch = useDispatch();
+
   const [activeLink, setActiveLink] = useState("auth/signup");
 
   const handleLinkClick = (link) => {
     setActiveLink(link);
+    dispatch({ type: "LOGIN-ERROR" });
   };
   return (
       <div className="App">

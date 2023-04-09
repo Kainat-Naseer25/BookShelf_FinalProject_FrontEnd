@@ -20,11 +20,14 @@ function MainNavBar() {
     navigate("/auth/signin");
   };
   const Logout = () => {
-    fetch("http://localhost:8000/logout")
+    fetch("http://localhost:8000/users/logout", {
+      credentials: "include",
+    })
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
         dispatch({ type: "LOGOUT" });
+        navigate("/");
       })
       .catch((error) => {
         console.log(error);
@@ -37,8 +40,8 @@ function MainNavBar() {
           alt="logo"
           src={logo}
           style={{
-            height: 40,
-            width: 40,
+            height: 60,
+            width: 60,
           }}
         />
         <NavbarText className="navtext"> Book Shelf </NavbarText>
@@ -52,13 +55,13 @@ function MainNavBar() {
           alt=""
           src={login}
           style={{
-            height: 40,
-            width: 40,
+            height: 60,
+            width: 60,
           }}
           onClick={navigateToLogin}
         />{" "}
-        {!logIn && <NavbarText onClick={navigateToLogin}> Login </NavbarText>}
-        {logIn && <NavbarText onClick={Logout}> Logout </NavbarText>}
+        {!logIn && <NavbarText className="navtext" onClick={navigateToLogin}> Login </NavbarText>}
+        {logIn && <NavbarText className="navtext" onClick={Logout}> Logout </NavbarText>}
       </NavbarText>
     </Navbar>
   );

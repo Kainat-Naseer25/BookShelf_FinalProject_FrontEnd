@@ -22,6 +22,7 @@ const PrivateLibrary = (props) => {
           onClick={addBook}
         />
         {showModal && <DataForm show={showModal}/>}
+        <BooksCard />
     </div>
   );
 };

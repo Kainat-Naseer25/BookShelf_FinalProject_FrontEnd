@@ -18,24 +18,24 @@ import {
   CardText,
   Button,
 } from "reactstrap";
-import { useQuery } from 'react-query';
+import { useQuery } from "react-query";
 
 function BooksCard() {
   //for fetching books
-  const { isLoading, error, data } = useQuery('myData', () =>
-    fetch('http://localhost:8000/crud/books/read').then(res => res.json())
+  const { isLoading, error, data } = useQuery("myData", () =>
+    fetch("http://localhost:8000/crud/books/read").then((res) => res.json())
   );
 
-  if (isLoading) return 'Loading...';
+  if (isLoading) return "Loading...";
 
   if (error) return `An error has occurred: ${error.message}`;
 
   return (
     <CardGroup>
       <Row className="mainRow">
-        {data.map(item => (
-          <Col className="column mb-5" key={item.id} md='3'>
-            <Card className="card">
+        {data.map((item) => (
+          <Col className="column mb-5" key={item.id} item={item}>
+            <Card className="card mt-5">
               <img src={lock} alt="Your Image" className="card-image" />{" "}
               <CardImg
                 className="image"
@@ -43,31 +43,37 @@ function BooksCard() {
                 src={item.CoverImage} // dynamic image URL from your API response
                 top
               />
-              <img src={addicon} alt="Your Image" className="card-image1" title="Add to My BookShelf" />
+              <img
+                src={addicon}
+                alt="Your Image"
+                className="card-image1"
+                title="Add to My BookShelf"
+              />
               <CardBody>
                 <CardTitle tag="h5">{item.BookName}</CardTitle>
                 <CardSubtitle className="text-muted" tag="h6">
                   {item.Author}
                 </CardSubtitle>
                 <CardText>
-                  <label class="book-price-text poppins_bold">
+                  <label className="book-price-text poppins_bold">
                     {" "}
-                    {item.Price}
+                    $ {item.Price}
                   </label>
                   <span role="img" aria-label="star">
-                    ⭐ {item.Rating}
-                    {" "}
+                    ⭐ {item.Rating}{" "}
                   </span>
                 </CardText>
-                <div className="pb-2">
+                <div className="bottom">
+                  <div className="pb-2">
                   <img src={edit} alt="Your Image" className="ed" />{" "}
                   <span> Edit </span>
                   <span className="px-3"> |</span>
                   <img src={deleted} alt="Your Image" className="de" />{" "}
                   <span> Delete </span>
-                </div>
-                <div>
-                  <Button className="gradient-button">View Description</Button>
+                  </div>
+                  <div>
+                    <Button className="gradient-btn">View Description</Button>
+                  </div>
                 </div>
               </CardBody>
             </Card>

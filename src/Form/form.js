@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useState } from "react";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import "./Form.css";
+import "./form.css";
 
 const DataForm = (props) => {
   const [modal, setModal] = useState(true);
