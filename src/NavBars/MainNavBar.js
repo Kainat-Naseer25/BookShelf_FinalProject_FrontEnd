@@ -20,11 +20,14 @@ function MainNavBar() {
     navigate("/auth/signin");
   };
   const Logout = () => {
-    fetch("http://localhost:8000/logout")
+    fetch("http://localhost:8000/users/logout", {
+      credentials: "include",
+    })
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
         dispatch({ type: "LOGOUT" });
+        navigate("/");
       })
       .catch((error) => {
         console.log(error);

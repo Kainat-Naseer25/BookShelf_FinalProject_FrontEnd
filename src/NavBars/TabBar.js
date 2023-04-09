@@ -4,6 +4,7 @@ import "./NavBar.css";
 import Tabs from "./Tabs"
 import Tab from "./Tab";
 import PrivateLibrary from "../PrivateLibrary/PrivateLibrary";
+import BooksCard from "../Card/Card";
 
 function TabBar() {
   return (
@@ -11,7 +12,7 @@ function TabBar() {
       <Tabs>
         <Tab label="Public Library">
           <div>
-            <p>Public Library</p>
+            <BooksCard />
           </div>
         </Tab>
         <Tab label="Book Shelf">
