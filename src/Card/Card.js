@@ -4,6 +4,7 @@ import lock from "./lock.png";
 import unlock from "./unlock.png";
 import edit from "./edit.png";
 import deleted from "./delete.png";
+import addicon from "./addicon.png";
 import "./Card.css";
 import {
   Row,
@@ -17,158 +18,61 @@ import {
   CardText,
   Button,
 } from "reactstrap";
+import { useQuery } from 'react-query';
 
 function BooksCard() {
+  //for fetching books
+  const { isLoading, error, data } = useQuery('myData', () =>
+    fetch('http://localhost:8000/crud/books/read').then(res => res.json())
+  );
+
+  if (isLoading) return 'Loading...';
+
+  if (error) return `An error has occurred: ${error.message}`;
+
   return (
     <CardGroup>
       <Row className="mainRow">
-        <Col className="column mb-5">
-          <Card className="card">
-            <img src={lock} alt="Your Image" className="card-image" />{" "}
-            <CardImg
-              className="image"
-              alt="Card image cap"
-              src="https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9781/5098/9781509858637.jpg"
-              top
-            />
-            <CardBody>
-              <CardTitle tag="h5">This is Going to Hurt</CardTitle>
-              <CardSubtitle className="text-muted" tag="h6">
-                Adam Kay
-              </CardSubtitle>
-              <CardText>
-                <label class="book-price-text poppins_bold">
-                  {" "}
-                  Price : $ 7.6
-                </label>
-                <span role="img" aria-label="star">
-                  ⭐ 4.5{" "}
-                </span>
-              </CardText>
-              <div className="pb-2">
-                <img src={edit} alt="Your Image" className="ed" />{" "}
-                <span> Edit </span>
-                <span className="px-3"> |</span>
-                <img src={deleted} alt="Your Image" className="de" />{" "}
-                <span> Delete </span>
-              </div>
-              <div>
-                <Button className="gradient-button">View Description</Button>
-              </div>
-            </CardBody>
-          </Card>
-        </Col>
-
-        <Col className="column mb-5">
-          <Card className="card">
-            <img src={unlock} alt="Your Image" className="card-image" />{" "}
-            <CardImg
-              className="image"
-              alt="Card image cap"
-              src="https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9781/8452/9781845298258.jpg"
-              top
-            />
-            <CardBody className="border-wrapper">
-              <CardTitle tag="h5">Thinking, Fast and Slow</CardTitle>
-              <CardSubtitle className="text-muted" tag="h6">
-                Daniel Kahneman
-              </CardSubtitle>
-              <CardText>
-                <label class="book-price-text poppins_bold">
-                  {" "}
-                  Price : $ 7.6
-                </label>
-                <span role="img" aria-label="star">
-                  ⭐ 4.5{" "}
-                </span>
-              </CardText>
-              <div className="pb-2">
-                <img src={edit} alt="Your Image" className="ed" />{" "}
-                <span> Edit </span>
-                <span className="px-3"> |</span>
-                <img src={deleted} alt="Your Image" className="de" />{" "}
-                <span> Delete </span>
-              </div>
-              <div>
-                <Button className="gradient-button">View Description</Button>
-              </div>
-            </CardBody>
-          </Card>
-        </Col>
-
-        <Col className="column mb-5">
-          <Card className="card">
-            <img src={lock} alt="Your Image" className="card-image" />{" "}
-            <CardImg
-              className="image"
-              alt="Card image cap"
-              src="https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9781/5098/9781509858637.jpg"
-              top
-            />
-            <CardBody className="border-wrapper">
-              <CardTitle tag="h5">This is Going to Hurt</CardTitle>
-              <CardSubtitle className="text-muted" tag="h6">
-                Adam Kay
-              </CardSubtitle>
-              <CardText>
-                <label class="book-price-text poppins_bold">
-                  {" "}
-                  Price : $ 7.6
-                </label>
-                <span role="img" aria-label="star">
-                  ⭐ 4.5{" "}
-                </span>
-              </CardText>
-              <div className="pb-2">
-                <img src={edit} alt="Your Image" className="ed" />{" "}
-                <span> Edit </span>
-                <span className="px-3"> |</span>
-                <img src={deleted} alt="Your Image" className="de" />{" "}
-                <span> Delete </span>
-              </div>
-              <div>
-                <Button className="gradient-button">View Description</Button>
-              </div>
-            </CardBody>
-          </Card>
-        </Col>
-
-        <Col className="column mb-5">
-          <Card className="card">
-            <img src={unlock} alt="Your Image" className="card-image" />{" "}
-            <CardImg
-              className="image"
-              alt="Card image cap"
-              src="https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9781/8452/9781845298258.jpg"
-              top
-            />
-            <CardBody className="border-wrapper">
-              <CardTitle tag="h5">Thinking, Fast and Slow</CardTitle>
-              <CardSubtitle className="text-muted" tag="h6">
-                Daniel Kahneman
-              </CardSubtitle>
-              <CardText>
-                <label class="book-price-text poppins_bold">
-                  {" "}
-                  Price : $ 7.6
-                </label>
-                <span role="img" aria-label="star">
-                  ⭐ 4.5{" "}
-                </span>
-              </CardText>
-              <div className="pb-2">
-                <img src={edit} alt="Your Image" className="ed" />{" "}
-                <span> Edit </span>
-                <span className="px-3"> |</span>
-                <img src={deleted} alt="Your Image" className="de" />{" "}
-                <span> Delete </span>
-              </div>
-              <div>
-                <Button className="gradient-button">View Description</Button>
-              </div>
-            </CardBody>
-          </Card>
-        </Col>
+        {data.map(item => (
+          <Col className="column mb-5" key={item.id} md='3'>
+            <Card className="card">
+              <img src={lock} alt="Your Image" className="card-image" />{" "}
+              <CardImg
+                className="image"
+                alt="Card image cap"
+                src={item.CoverImage} // dynamic image URL from your API response
+                top
+              />
+              <img src={addicon} alt="Your Image" className="card-image1" title="Add to My BookShelf" />
+              <CardBody>
+                <CardTitle tag="h5">{item.BookName}</CardTitle>
+                <CardSubtitle className="text-muted" tag="h6">
+                  {item.Author}
+                </CardSubtitle>
+                <CardText>
+                  <label class="book-price-text poppins_bold">
+                    {" "}
+                    {item.Price}
+                  </label>
+                  <span role="img" aria-label="star">
+                    ⭐ {item.Rating}
+                    {" "}
+                  </span>
+                </CardText>
+                <div className="pb-2">
+                  <img src={edit} alt="Your Image" className="ed" />{" "}
+                  <span> Edit </span>
+                  <span className="px-3"> |</span>
+                  <img src={deleted} alt="Your Image" className="de" />{" "}
+                  <span> Delete </span>
+                </div>
+                <div>
+                  <Button className="gradient-button">View Description</Button>
+                </div>
+              </CardBody>
+            </Card>
+          </Col>
+        ))}
       </Row>
     </CardGroup>
   );
