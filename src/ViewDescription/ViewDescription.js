@@ -24,7 +24,7 @@ function ViewDescription(props) {
             <Button color="danger" onClick={toggle}>
                 Click Me
             </Button>
-            <Modal isOpen={modal} toggle={toggle} external={externalCloseBtn} className="modal-dialog modal-lg">
+            <Modal isOpen={modal} toggle={toggle} external={externalCloseBtn} className="modal-lg">
 
                 <Row>
                     <Col md='4' className="leftCol">
@@ -39,7 +39,7 @@ function ViewDescription(props) {
                             <div className="bookTitle">
                                 Forty Rules of Love
                             </div>
-                            <div>
+                            <div className="text">
                                 Description:
                             </div>
                             <div className="text">
