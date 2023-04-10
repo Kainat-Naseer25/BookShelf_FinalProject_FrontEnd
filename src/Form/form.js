@@ -10,14 +10,9 @@ const DataForm = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Do something with the form data, e.g. send it to the server
   };
 
   return (
-    // <div>
-    //   <Button color="primary" onClick={toggle}>
-    //     Add New Book
-    //   </Button>
       <Modal isOpen={modal} toggle={toggle}>
         <ModalHeader toggle={toggle}>Add New Book</ModalHeader>
         <ModalBody>

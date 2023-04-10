@@ -5,6 +5,7 @@ import unlock from "./unlock.png";
 import edit from "./edit.png";
 import deleted from "./delete.png";
 import addicon from "./addicon.png";
+import { useState } from "react";
 import "./Card.css";
 import {
   Row,
@@ -19,8 +20,14 @@ import {
   Button,
 } from "reactstrap";
 import { useQuery } from "react-query";
+import ViewDescription from "../ViewDescription/ViewDescription";
 
 function BooksCard() {
+  const [showModal, setShowModal] = useState(false);
+  const viewDiscription = () => {
+    setShowModal(true);
+  };
+
   //for fetching books
   const { isLoading, error, data } = useQuery("myData", () =>
     fetch("http://localhost:8000/crud/books/read").then((res) => res.json())
@@ -31,16 +38,22 @@ function BooksCard() {
   if (error) return `An error has occurred: ${error.message}`;
 
   return (
-    <CardGroup>
+    <CardGroup className="page">
       <Row className="mainRow">
         {data.map((item) => (
           <Col className="column mb-5" key={item.id} item={item}>
             <Card className="card mt-5">
-              <img src={lock} alt="Your Image" className="card-image" />{" "}
+              {item.visibility === "public" ? (
+                <img src={unlock} alt="Your Image" className="card-image" title="public" />
+              ) : item.visibility === "private" ? (
+                <img src={lock} alt="Your Image" className="card-image" title="private" />
+              ) : (
+                <p>Invalid visibility value.</p>
+              )}
               <CardImg
                 className="image"
                 alt="Card image cap"
-                src={item.CoverImage} // dynamic image URL from your API response
+                src={item.CoverImage}
                 top
               />
               <img
@@ -65,18 +78,21 @@ function BooksCard() {
                 </CardText>
                 <div className="bottom">
                   <div className="pb-2">
-                  <img src={edit} alt="Your Image" className="ed" />{" "}
-                  <span> Edit </span>
-                  <span className="px-3"> |</span>
-                  <img src={deleted} alt="Your Image" className="de" />{" "}
-                  <span> Delete </span>
+                    <img src={edit} alt="Your Image" className="ed" />{" "}
+                    <span> Edit </span>
+                    <span className="px-3"> |</span>
+                    <img src={deleted} alt="Your Image" className="de" />{" "}
+                    <span> Delete </span>
                   </div>
                   <div>
-                    <Button className="gradient-btn">View Description</Button>
+                    <Button className="gradient-btn" onClick={viewDiscription}>
+                      View Description
+                    </Button>
                   </div>
                 </div>
               </CardBody>
             </Card>
+            {showModal && <ViewDescription show={showModal} data={item} />}
           </Col>
         ))}
       </Row>
