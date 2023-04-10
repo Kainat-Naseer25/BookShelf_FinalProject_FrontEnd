@@ -14,6 +14,7 @@ function MainNavBar() {
     logIn: state.appReducer.logIn,
     user: state.appReducer.user,
   }));
+  console.log(user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const navigateToLogin = () => {
