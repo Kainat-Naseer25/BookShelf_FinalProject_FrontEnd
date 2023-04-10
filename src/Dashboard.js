@@ -12,7 +12,7 @@ const Dashboard = () => {
     <>
       <MainNavBar />
       {logIn && <TabBar />}
-      <BooksCard />
+      {/* <BooksCard /> */}
     </>
   );
 };

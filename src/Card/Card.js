@@ -18,24 +18,49 @@ import {
   CardText,
   Button,
 } from "reactstrap";
-import { useQuery } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "react-query";
+import { useSelector } from "react-redux";
 
 function BooksCard() {
+  const { user, logIn } = useSelector((state) => ({
+    user: state.appReducer.user,
+    logIn: state.appReducer.logIn,
+  }));
+
+
+  const queryClient = useQueryClient();
   //for fetching books
   const { isLoading, error, data } = useQuery("myData", () =>
-    fetch("http://localhost:8000/crud/books/read").then((res) => res.json())
+    fetch(`http://localhost:8000/crud/books/private/read/${user._id}`).then((res) => res.json())
   );
+
+  const deleteBook = useMutation(
+    async (id) => {
+      const res = await fetch(`http://localhost:8000/crud/books/delete/${id}`, {
+        method: 'DELETE'
+      });
+      return res.json();
+    },
+    {
+      onSettled: () => {
+        queryClient.invalidateQueries('books');
+      }
+    }
+  );
+
+  const handleDeleteBook = (id) => {
+    deleteBook.mutate(id);
+  }; 
 
   if (isLoading) return "Loading...";
 
   if (error) return `An error has occurred: ${error.message}`;
-
   return (
     <CardGroup>
       <Row className="mainRow">
         {data.map((item) => (
           <Col className="column mb-5" key={item.id} item={item}>
-            <Card className="card mt-5">
+            <Card key={item.id} className="card mt-5">
               <img src={lock} alt="Your Image" className="card-image" />{" "}
               <CardImg
                 className="image"
@@ -65,11 +90,11 @@ function BooksCard() {
                 </CardText>
                 <div className="bottom">
                   <div className="pb-2">
-                  <img src={edit} alt="Your Image" className="ed" />{" "}
-                  <span> Edit </span>
-                  <span className="px-3"> |</span>
-                  <img src={deleted} alt="Your Image" className="de" />{" "}
-                  <span> Delete </span>
+                    <img src={edit} alt="Your Image" className="ed" />{" "}
+                    <span> Edit </span>
+                    <span className="px-3"> |</span>
+                    <img src={deleted} alt="Your Image" className="de" onClick={() => handleDeleteBook(item._id)} />{" "}
+                    <span> Delete </span>
                   </div>
                   <div>
                     <Button className="gradient-btn">View Description</Button>
@@ -83,4 +108,5 @@ function BooksCard() {
     </CardGroup>
   );
 }
+
 export default BooksCard;
