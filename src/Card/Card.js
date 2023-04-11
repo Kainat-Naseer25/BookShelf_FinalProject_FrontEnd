@@ -22,18 +22,20 @@ import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useSelector } from "react-redux";
 
 function BooksCard() {
+
   const { user, logIn } = useSelector((state) => ({
     user: state.appReducer.user,
     logIn: state.appReducer.logIn,
   }));
 
-
   const queryClient = useQueryClient();
+
   //for fetching books
   const { isLoading, error, data } = useQuery("myData", () =>
     fetch(`http://localhost:8000/crud/books/private/read/${user._id}`).then((res) => res.json())
   );
 
+  //for deleting books
   const deleteBook = useMutation(
     async (id) => {
       const res = await fetch(`http://localhost:8000/crud/books/delete/${id}`, {
@@ -43,7 +45,7 @@ function BooksCard() {
     },
     {
       onSettled: () => {
-        queryClient.invalidateQueries('books');
+        queryClient.invalidateQueries('myData');
       }
     }
   );
