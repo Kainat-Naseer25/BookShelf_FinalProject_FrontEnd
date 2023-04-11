@@ -7,7 +7,7 @@ const initalState = {
 export function appReducer(state = initalState, action) {
   switch (action.type) {
     case "LOGIN":
-      return { ...state, user: action.payload.user, logIn: true };
+      return { ...state, user: action.payload, logIn: true };
     case "LOGIN-ERROR":
       return { ...state, loginError: !state.loginError };
     case "LOGOUT":

@@ -5,7 +5,9 @@ import viewBook from "./viewBook.jpeg";
 import "./ViewDescription.css";
 
 function ViewDescription(props) {
-    const [modal, setModal] = useState(false);
+    const [modal, setModal] = useState(true);
+    console.log(props.data);
+    const data = props.data;
 
     const toggle = () => setModal(!modal);
 
@@ -21,28 +23,28 @@ function ViewDescription(props) {
     );
     return (
         <div>
-            <Button color="danger" onClick={toggle}>
-                Click Me
-            </Button>
             <Modal isOpen={modal} toggle={toggle} external={externalCloseBtn} className="modal-lg">
-
                 <Row>
                     <Col md='4' className="leftCol">
                     </Col>
                     <Col className='box overlay'>
                         <img alt="Book card image"
-                            src={viewBook}
+                            src={data.CoverImage}
                             top
                             height="100%" width="80%" />
                     </Col>
-                    <Col md='6' className="rightCol">
+                    <Col className="rightCol">
                             <div className="bookTitle">
-                                Forty Rules of Love
+                                {data.BookName}
                             </div>
                             <div className="text">
-                                Description:
-                            </div>
-                            <div className="text">
+                                <b> ISBN:</b> {data.ISBN}
+                                <br />
+                                <b> Category:</b> {data.Category}
+                                <br />
+                                <b> Author:</b> {data.Author}
+                                <br />
+                                <b>Description:</b>
                                 The Forty Rules of Love is a novel written by the Turkish author Elif Shafak.
                                 Her interest in writing this book was influenced by the degree she received in Gender and Women’s Studies.
                                 The book was published in March 2009. It is about Maulana Jalal-Ud-Din, known as Rumi and his companion Shams Tabrizi.

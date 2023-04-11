@@ -4,7 +4,8 @@
 .navtext {
   color: #6b5b95;
   text-decoration: solid;
-  font-size: larger;
+  font-size: x-large;
+  text-align: left;
 }
 .navbtn {
   background-color: white;
@@ -15,6 +16,7 @@
   margin: 0 auto;
   width: 100%;
   text-align: center;
+  background: linear-gradient(to left,  #733ad525, #d53a9c25);
 }
 
 .tab-buttons {

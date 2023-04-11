@@ -32,13 +32,12 @@
 
 .card-image1 {
   position: absolute;
-  bottom: -30px;
+  bottom: -20px;
   right: 100px;
   width: 50px;
   height: 50px;
   border-radius: 50%;
   z-index: 1;
-  background-color: white;
 }
 
 .card-image1:hover {
@@ -55,7 +54,9 @@
   padding-right: 100px;
   text-align: center;
 }
-
+.page{
+  background: linear-gradient(to left,  #733ad525, #d53a9c25);
+}
 .book-price-text {
   color: #2a9f1d;
   font-family: "Poppins";

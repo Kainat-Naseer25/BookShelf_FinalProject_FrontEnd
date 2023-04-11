@@ -27,6 +27,7 @@ function MainNavBar() {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
+        localStorage.removeItem('logindata');
         dispatch({ type: "LOGOUT" });
         navigate("/");
       })
@@ -45,13 +46,13 @@ function MainNavBar() {
             width: 60,
           }}
         />
-        <NavbarText className="navtext"> Book Shelf </NavbarText>
+        <NavbarText className="navtext"> BOOK SHELF </NavbarText>
       </NavbarBrand>
       <Form.Group>
         <Form.Control type="text" placeholder="Search..." />
       </Form.Group>
       <NavbarText className="customCursor">
-        {logIn && <NavbarText> {user.fullname} </NavbarText>}{" "}
+        {logIn && <NavbarText> Welcome {user.fullname}! </NavbarText>}{" "}
         <img
           alt=""
           src={login}
@@ -61,8 +62,18 @@ function MainNavBar() {
           }}
           onClick={navigateToLogin}
         />{" "}
-        {!logIn && <NavbarText className="navtext" onClick={navigateToLogin}> Login </NavbarText>}
-        {logIn && <NavbarText className="navtext" onClick={Logout}> Logout </NavbarText>}
+        {!logIn && (
+          <NavbarText className="navtext" onClick={navigateToLogin}>
+            {" "}
+            Login{" "}
+          </NavbarText>
+        )}
+        {logIn && (
+          <NavbarText className="navtext" onClick={Logout}>
+            {" "}
+            Logout{" "}
+          </NavbarText>
+        )}
       </NavbarText>
     </Navbar>
   );

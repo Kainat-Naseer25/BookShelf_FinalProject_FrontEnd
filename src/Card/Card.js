@@ -5,6 +5,7 @@ import unlock from "./unlock.png";
 import edit from "./edit.png";
 import deleted from "./delete.png";
 import addicon from "./addicon.png";
+import { useState } from "react";
 import "./Card.css";
 import {
   Row,
@@ -20,12 +21,19 @@ import {
 } from "reactstrap";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useSelector } from "react-redux";
+import ViewDescription from "../ViewDescription/ViewDescription";
+
 
 function BooksCard() {
-
-  const { user, logIn } = useSelector((state) => ({
+  const [showModal, setShowModal] = useState(false);
+  const [cardData, setCardData] = useState("");
+  const viewDiscription = (item) => {
+    setShowModal(true);
+    setCardData(item);
+  };
+  
+  const { user } = useSelector((state) => ({
     user: state.appReducer.user,
-    logIn: state.appReducer.logIn,
   }));
 
   const queryClient = useQueryClient();
@@ -58,16 +66,23 @@ function BooksCard() {
 
   if (error) return `An error has occurred: ${error.message}`;
   return (
-    <CardGroup>
+    <CardGroup className="page">
       <Row className="mainRow">
+      {showModal && <ViewDescription show={showModal} data={cardData} />}
         {data.map((item) => (
           <Col className="column mb-5" key={item.id} item={item}>
-            <Card key={item.id} className="card mt-5">
-              <img src={lock} alt="Your Image" className="card-image" />{" "}
+            <Card className="card mt-5">
+              {item.visibility === "public" ? (
+                <img src={unlock} alt="Your Image" className="card-image" title="public" />
+              ) : item.visibility === "private" ? (
+                <img src={lock} alt="Your Image" className="card-image" title="private" />
+              ) : (
+                <p>Invalid visibility value.</p>
+              )}
               <CardImg
                 className="image"
                 alt="Card image cap"
-                src={item.CoverImage} // dynamic image URL from your API response
+                src={item.CoverImage}
                 top
               />
               <img
@@ -86,9 +101,10 @@ function BooksCard() {
                     {" "}
                     $ {item.Price}
                   </label>
-                  <span role="img" aria-label="star">
+                  <br />
+                  <label role="img" aria-label="star">
                     ⭐ {item.Rating}{" "}
-                  </span>
+                  </label>
                 </CardText>
                 <div className="bottom">
                   <div className="pb-2">
@@ -99,7 +115,9 @@ function BooksCard() {
                     <span> Delete </span>
                   </div>
                   <div>
-                    <Button className="gradient-btn">View Description</Button>
+                    <Button className="gradient-btn" onClick={() => viewDiscription(item)}>
+                      View Description
+                    </Button>
                   </div>
                 </div>
               </CardBody>

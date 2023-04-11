@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import "./App.css";
 import BooksCard from "./Card/Card";
@@ -12,7 +12,6 @@ import { QueryClient, QueryClientProvider } from "react-query";
 const queryClient = new QueryClient();
 
 function App() {
-
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
