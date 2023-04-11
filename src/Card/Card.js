@@ -20,30 +20,29 @@ import {
   Button,
 } from "reactstrap";
 import { useQuery, useMutation, useQueryClient } from "react-query";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import ViewDescription from "../ViewDescription/ViewDescription";
 
 
 function BooksCard() {
+  const dispatch = useDispatch();
+  const { user, descriptionModal } = useSelector((state) => ({
+    user: state.appReducer.user,
+    descriptionModal: state.appReducer.descriptionModal
+  }));
   const [showModal, setShowModal] = useState(false);
   const [cardData, setCardData] = useState("");
   const viewDiscription = (item) => {
-    setShowModal(true);
+    dispatch({ type: "DESCRIPTION-MODAL", payload: !descriptionModal });
     setCardData(item);
   };
-  
-  const { user } = useSelector((state) => ({
-    user: state.appReducer.user,
-  }));
 
   const queryClient = useQueryClient();
 
-  //for fetching books
   const { isLoading, error, data } = useQuery("myData", () =>
     fetch(`http://localhost:8000/crud/books/private/read/${user._id}`).then((res) => res.json())
   );
 
-  //for deleting books
   const deleteBook = useMutation(
     async (id) => {
       const res = await fetch(`http://localhost:8000/crud/books/delete/${id}`, {
@@ -68,7 +67,7 @@ function BooksCard() {
   return (
     <CardGroup className="page">
       <Row className="mainRow">
-      {showModal && <ViewDescription show={showModal} data={cardData} />}
+      {descriptionModal && <ViewDescription show={showModal} data={cardData} />}
         {data.map((item) => (
           <Col className="column mb-5" key={item.id} item={item}>
             <Card className="card mt-5">
