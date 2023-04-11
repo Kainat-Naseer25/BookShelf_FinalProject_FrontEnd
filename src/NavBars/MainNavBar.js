@@ -14,6 +14,7 @@ function MainNavBar() {
     logIn: state.appReducer.logIn,
     user: state.appReducer.user,
   }));
+  console.log(user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const navigateToLogin = () => {
@@ -26,6 +27,7 @@ function MainNavBar() {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
+        localStorage.removeItem('logindata');
         dispatch({ type: "LOGOUT" });
         navigate("/");
       })
@@ -50,7 +52,7 @@ function MainNavBar() {
         <Form.Control type="text" placeholder="Search..." />
       </Form.Group>
       <NavbarText className="customCursor">
-        {logIn && <NavbarText> {user.fullname} </NavbarText>}{" "}
+        {logIn && <NavbarText> Welcome {user.fullname}! </NavbarText>}{" "}
         <img
           alt=""
           src={login}

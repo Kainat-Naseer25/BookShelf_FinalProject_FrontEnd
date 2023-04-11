@@ -22,7 +22,7 @@ function TabBar() {
         </Tab>
         <Tab label="Private Library">
           <div>
-            <BooksCard />
+            <PrivateLibrary />
           </div>
         </Tab>
       </Tabs>

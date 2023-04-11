@@ -41,7 +41,8 @@ function SignUpForm() {
     })
       .then((response) => response.json())
       .then((data) => {
-        dispatch({ type: "LOGIN", payload: data });
+        localStorage.setItem('logindata', JSON.stringify(data));
+        dispatch({ type: "LOGIN", payload: data.user });
         dispatch({ type: "LOGIN-ERROR" });
         console.log("sign up done");
         console.log(data);

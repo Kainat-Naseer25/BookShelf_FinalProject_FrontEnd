@@ -19,27 +19,54 @@ import {
   CardText,
   Button,
 } from "reactstrap";
-import { useQuery } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "react-query";
+import { useSelector } from "react-redux";
 import ViewDescription from "../ViewDescription/ViewDescription";
+
 
 function BooksCard() {
   const [showModal, setShowModal] = useState(false);
-  const viewDiscription = () => {
+  const [cardData, setCardData] = useState("");
+  const viewDiscription = (item) => {
     setShowModal(true);
+    setCardData(item);
   };
+  const { user } = useSelector((state) => ({
+    user: state.appReducer.user,
+  }));
 
+
+  const queryClient = useQueryClient();
   //for fetching books
   const { isLoading, error, data } = useQuery("myData", () =>
-    fetch("http://localhost:8000/crud/books/read").then((res) => res.json())
+    fetch(`http://localhost:8000/crud/books/private/read/${user._id}`).then((res) => res.json())
   );
+
+  const deleteBook = useMutation(
+    async (id) => {
+      const res = await fetch(`http://localhost:8000/crud/books/delete/${id}`, {
+        method: 'DELETE'
+      });
+      return res.json();
+    },
+    {
+      onSettled: () => {
+        queryClient.invalidateQueries('books');
+      }
+    }
+  );
+
+  const handleDeleteBook = (id) => {
+    deleteBook.mutate(id);
+  }; 
 
   if (isLoading) return "Loading...";
 
   if (error) return `An error has occurred: ${error.message}`;
-
   return (
     <CardGroup className="page">
       <Row className="mainRow">
+      {showModal && <ViewDescription show={showModal} data={cardData} />}
         {data.map((item) => (
           <Col className="column mb-5" key={item.id} item={item}>
             <Card className="card mt-5">
@@ -72,31 +99,32 @@ function BooksCard() {
                     {" "}
                     $ {item.Price}
                   </label>
-                  <span role="img" aria-label="star">
+                  <br />
+                  <label role="img" aria-label="star">
                     ⭐ {item.Rating}{" "}
-                  </span>
+                  </label>
                 </CardText>
                 <div className="bottom">
                   <div className="pb-2">
                     <img src={edit} alt="Your Image" className="ed" />{" "}
                     <span> Edit </span>
                     <span className="px-3"> |</span>
-                    <img src={deleted} alt="Your Image" className="de" />{" "}
+                    <img src={deleted} alt="Your Image" className="de" onClick={() => handleDeleteBook(item._id)} />{" "}
                     <span> Delete </span>
                   </div>
                   <div>
-                    <Button className="gradient-btn" onClick={viewDiscription}>
+                    <Button className="gradient-btn" onClick={() => viewDiscription(item)}>
                       View Description
                     </Button>
                   </div>
                 </div>
               </CardBody>
             </Card>
-            {showModal && <ViewDescription show={showModal} data={item} />}
           </Col>
         ))}
       </Row>
     </CardGroup>
   );
 }
+
 export default BooksCard;
