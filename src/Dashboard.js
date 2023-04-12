@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import MainNavBar from "./NavBars/MainNavBar";
 import TabBar from "./NavBars/TabBar";
 import { useSelector, useDispatch } from "react-redux";
-import Cookies from "js-cookie";
 
 const Dashboard = () => {
   const { logIn } = useSelector((state) => ({
