@@ -6,6 +6,7 @@ import Tab from "./Tab";
 import PrivateLibrary from "../PrivateLibrary/PrivateLibrary";
 import MyBookShelf from "../MyBookShelf/MyBookShelf";
 import PublicLibrary from "../PublicLibrary/PublicLibrary";
+import Sidebar from "../Sidebar/Sidebar";
 
 function TabBar() {
   return (
@@ -14,6 +15,7 @@ function TabBar() {
         <Tab label="Public Library">
           <div>
             <PublicLibrary />
+            <Sidebar/>
           </div>
         </Tab>
         <Tab label="Book Shelf">
