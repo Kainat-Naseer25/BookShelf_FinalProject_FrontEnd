@@ -37,9 +37,10 @@ button {
 }
 
 .border-gradient {
-  border-bottom: 2px solid;
+  border-bottom: 3px solid;
   border-image-slice: 1;
-  border-width: 2px;
+  border-width: 3px;
+  background-color: white;
 }
 .border-gradient-purple {
   border-image-source: linear-gradient(to left, #743ad5, #d53a9d);

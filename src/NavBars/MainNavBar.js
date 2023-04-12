@@ -14,7 +14,6 @@ function MainNavBar() {
     logIn: state.appReducer.logIn,
     user: state.appReducer.user,
   }));
-  console.log(user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const navigateToLogin = () => {
@@ -26,7 +25,6 @@ function MainNavBar() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         localStorage.removeItem('logindata');
         dispatch({ type: "LOGOUT" });
         navigate("/");

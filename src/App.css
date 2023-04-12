@@ -135,3 +135,9 @@
 .customCursor:hover{
   cursor: pointer;
 }
+
+.addbooks{
+  font-size: large;
+  font-weight: bolder;
+  color: #6b5b95;
+}
