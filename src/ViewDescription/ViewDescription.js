@@ -10,7 +10,7 @@ function ViewDescription(props) {
   const { descriptionModal } = useSelector((state) => ({
     descriptionModal: state.appReducer.descriptionModal,
   }));
-  console.log(props.data);
+  console.log("DESCRIPTION PROP",props.data);
   const data = props.data;
 
   const toggle = () => dispatch({ type: "DESCRIPTION-MODAL", payload: false });
@@ -39,8 +39,8 @@ function ViewDescription(props) {
             <img
               alt="Book card image"
               src={data.CoverImage}
-              top
-              height="100%"
+              top={true}
+              height="80%"
               width="80%"
             />
           </Col>

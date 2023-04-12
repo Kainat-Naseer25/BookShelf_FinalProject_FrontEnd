@@ -1,5 +1,5 @@
 .leftCol {
-    background: linear-gradient(to bottom, #733ad5, #d53a9d);
+    background: linear-gradient(to bottom, #36b8f0, #e95897);
     height: 70vh;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
@@ -7,7 +7,7 @@
 .text {
     text-align: justify;
     margin-left: 70px;
-    margin-right: 40px;
+    margin-right: 80px;
     margin-top: 20px;
 }
 .rightCol {
@@ -16,7 +16,7 @@
 
 .bookTitle{
     margin-left: 70px;
-    margin-top: 40px;
+    margin-top: 60px;
     margin-bottom: 20px;
     font-family: 'Times New Roman', Times, serif;
     font-size: xx-large;
@@ -25,14 +25,14 @@
 }
 .box {
     width: 33%;
-    height: 70%;
+    height: 67%;
     position: absolute;
 }
 .overlay {
     z-index: 10;
-    margin-top: 53px;
+    margin-top: 75px;
     margin-bottom: 53px;
-    margin-left: 130px;
+    margin-left: 100px;
     margin-right: 53px;
     overflow: hidden;
 }
@@ -42,10 +42,14 @@
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 .gradient-button {
-    background: linear-gradient(to left, #743ad5, #d53a9d);
-    margin-left: 400px;
-    margin-top: 30px;
+    background: linear-gradient(to left, #36b8f0, #e95897);
+    border: transparent;
     border-radius: 50px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin-bottom: 40px;
+    transform: translateX(-50%);
 }
 
