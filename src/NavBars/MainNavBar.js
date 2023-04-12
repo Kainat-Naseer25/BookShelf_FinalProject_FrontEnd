@@ -46,9 +46,7 @@ function MainNavBar() {
         />
         <NavbarText className="navtext"> BOOK SHELF </NavbarText>
       </NavbarBrand>
-      <Form.Group>
-        <Form.Control type="text" placeholder="Search..." />
-      </Form.Group>
+
       <NavbarText className="customCursor">
         {logIn && <NavbarText> Welcome {user.fullname}! </NavbarText>}{" "}
         <img
