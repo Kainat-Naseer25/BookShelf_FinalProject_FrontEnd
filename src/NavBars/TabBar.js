@@ -5,13 +5,16 @@ import Tabs from "./Tabs";
 import Tab from "./Tab";
 import PrivateLibrary from "../PrivateLibrary/PrivateLibrary";
 import MyBookShelf from "../MyBookShelf/MyBookShelf";
+import PublicLibrary from "../PublicLibrary/PublicLibrary";
 
 function TabBar() {
   return (
     <div className="tabs">
       <Tabs>
         <Tab label="Public Library">
-          <div>Public Library</div>
+          <div>
+            <PublicLibrary />
+          </div>
         </Tab>
         <Tab label="Book Shelf">
           <div>
