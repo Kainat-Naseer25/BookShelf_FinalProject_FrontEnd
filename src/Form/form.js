@@ -4,48 +4,82 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { useMutation } from "react-query";
 import axios from "axios";
 import "./form.css";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 const DataForm = (props) => {
   const data = props.data;
-  console.log(data)
+  console.log(data);
   const [modal, setModal] = useState(true);
   const [book, setBook] = useState("");
   const [author, setAuthor] = useState("");
-  const [rating, setRating] = useState(0);
+  const [rating, setRating] = useState(null);
   const [price, setPrice] = useState("");
   const [ISBN, setISBN] = useState("");
   const [category, setCategory] = useState("");
   const [visibility, setVisibility] = useState(false);
-  const [isPublic, setIsPublic] = useState(false);
   const [image, setImage] = useState(null);
   const [access, setAccess] = useState("");
+  const dispatch = useDispatch();
 
-  const { user } = useSelector((state) => ({
+  const { user, addModal, editModal, edata } = useSelector((state) => ({
     user: state.appReducer.user,
+    addModal: state.appReducer.addModal,
+    editModal: state.appReducer.editModal,
+    edata: state.appReducer.edata
   }));
   const [addedBy, setaddedBy] = useState(user._id);
 
+  useEffect(() => {
+    if (data) {
+      setBook(data.BookName);
+      setAuthor(data.Author);
+      setRating(data.Rating);
+      setPrice(data.Price);
+      setISBN(data.ISBN);
+      setAccess(data.visibility);
+      setCategory(data.Category);
+    }
+  }, [data]);
 
   const mutation = useMutation((body) => {
-    return axios.post("http://localhost:8000/crud/books/create", {
-      BookName: body.book,
-      Author: body.author,
-      Rating: body.rating,
-      Price: body.price,
-      ISBN: body.ISBN,
-      visibility: body.access,
-      Category: body.category,
-      AddedBy: body.addedBy,
-    });
+    console.log("mutation", addedBy);
+    console.log(body);
+    if (!data){
+      return axios.post("http://localhost:8000/crud/books/create", {
+        BookName: body.book,
+        Author: body.author,
+        Rating: body.rating,
+        Price: body.price,
+        ISBN: body.ISBN,
+        visibility: body.access,
+        Category: body.category,
+        AddedBy: body.addedBy,
+      });
+    }
+    else{
+      return axios.put(`http://localhost:8000/crud/books/update/${data._id}`, {
+        BookName: body.book,
+        Author: body.author,
+        Rating: body.rating,
+        Price: body.price,
+        ISBN: body.ISBN,
+        visibility: body.access,
+        Category: body.category,
+        AddedBy: body.addedBy,
+      });
+    }
   });
 
-  const toggle = () => setModal(!modal);
+  const toggle = () => {
+    dispatch({ type: "ADD-MODAL", payload: false })
+    dispatch({ type: "EDIT-MODAL", payload: { editModal: false, edata: "" } });
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(user._id);
-    // Do something with the form data, e.g. send it to the server
+    dispatch({ type: "ADD-MODAL", payload: false });
+    dispatch({ type: "EDIT-MODAL", payload: { editModal: false, edata: "" } });
+    console.log("handle submit", addedBy);
     mutation.mutate({
       book,
       author,
@@ -67,9 +101,6 @@ const DataForm = (props) => {
       setCategory(value);
     }
   };
-  const handleVisibilityChange = () => {
-    setIsPublic(!isPublic);
-  };
 
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
@@ -81,20 +112,25 @@ const DataForm = (props) => {
     console.log(event.target.value);
   }
 
+  const modalStyles = {
+    width: '500px',
+    height: '300px',
+  };
+
   return (
     <div>
-      <Modal isOpen={modal} toggle={toggle}>
+      <Modal isOpen={addModal || editModal} toggle={toggle} className="modal-lg" style={modalStyles}>
         <ModalHeader toggle={toggle} className="addmodalHead">
           Add New Book
         </ModalHeader>
         <ModalBody>
-          <form onSubmit={handleSubmit}>
+          <form>
             <div className="addform-group">
               <label htmlFor="bookName">Book Name:</label>
               <input
                 type="text"
                 name="bookName"
-                value={data ? data.BookName : book}
+                value={book}
                 className="addform-control"
                 onChange={(e) => setBook(e.target.value)}
                 required
@@ -105,7 +141,7 @@ const DataForm = (props) => {
               <input
                 type="text"
                 name="authorName"
-                value={data ? data.Author : author}
+                value={author}
                 className="addform-control"
                 onChange={(e) => setAuthor(e.target.value)}
                 required
@@ -116,7 +152,7 @@ const DataForm = (props) => {
               <input
                 type="text"
                 name="rating"
-                value={data ? data.Rating : rating}
+                value={rating}
                 className="addform-control"
                 onChange={(e) => setRating(e.target.value)}
                 required
@@ -127,7 +163,7 @@ const DataForm = (props) => {
               <input
                 type="text"
                 name="price"
-                value={data ? data.Price : price}
+                value={price}
                 className="addform-control"
                 onChange={(e) => setPrice(e.target.value)}
                 required
@@ -138,7 +174,7 @@ const DataForm = (props) => {
               <input
                 type="text"
                 name="ISBN"
-                value={data ? data.ISBN : ISBN}
+                value={ISBN}
                 className="addform-control"
                 onChange={(e) => setISBN(e.target.value)}
                 required
@@ -152,9 +188,9 @@ const DataForm = (props) => {
                   type="radio"
                   value="public"
                   name="access"
-                  //value={data ? data.visibility : ""}
                   className="form-check-input"
-                  checked={data && data.visibility === "public"}
+                  checked={access === "public"}
+                  onChange={onChangeValue}
                   required
                 />
                 <label htmlFor="public" className="addform-check-label">
@@ -164,27 +200,14 @@ const DataForm = (props) => {
                   type="radio"
                   value="private"
                   name="access"
-                  //value={data ? data.visibility : ""}
-                  checked={data && data.visibility === "private"}
+                  checked={access === "private"}
+                  onChange={onChangeValue}
                   required
                 />
                 <label htmlFor="public" className="addform-check-label">
                   Private
                 </label>
               </div>
-              {/* <div className="form-check form-check-inline">
-                <input
-                  type="radio"
-                  name="visibility"
-                  className="form-check-input"
-                  value="private"
-                  checked={!isPublic}
-                  onChange={handleVisibilityChange}
-                />
-                <label htmlFor="private" className="form-check-label">
-                  Private
-                </label>
-              </div> */}
             </div>
             <div className="addform-group">
               <label htmlFor="category">Category:</label>
@@ -192,8 +215,7 @@ const DataForm = (props) => {
                 <select
                   name="category"
                   className="addform-control mr-2"
-                  //value={category}
-                  value={data && data.Category ? data.Category : category}
+                  value={category}
                   onChange={handleCategoryChange}
                 >
                   <option value="">--Select--</option>
@@ -235,16 +257,10 @@ const DataForm = (props) => {
               <button
                 type="submit"
                 className="addbtn addbtn-secondary, addformFieldButton"
-                onClick={toggle}
+                onClick={handleSubmit}
               >
                 Submit
               </button>
-              {/* <button
-                className="addbtn addbtn-secondary, addformFieldButton"
-                onClick={toggle}
-              >
-                Close
-              </button> */}
             </ModalFooter>
           </form>
         </ModalBody>

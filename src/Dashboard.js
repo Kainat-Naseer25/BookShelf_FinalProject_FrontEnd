@@ -2,7 +2,8 @@ import React, { useEffect } from "react";
 import MainNavBar from "./NavBars/MainNavBar";
 import TabBar from "./NavBars/TabBar";
 import { useSelector, useDispatch } from "react-redux";
-import Cookies from "js-cookie";
+import PublicLibrary from "./PublicLibrary/PublicLibrary";
+import "./App.css";
 
 const Dashboard = () => {
   const { logIn } = useSelector((state) => ({
@@ -10,29 +11,20 @@ const Dashboard = () => {
   }));
 
   const dispatch = useDispatch();
-  const myValue = JSON.parse(localStorage.getItem("logindata"));
-
-    if (myValue) {
-      console.log("token", myValue.token);
-      console.log("user", myValue.user);
-    }
 
   useEffect(() => {
     const myValue = JSON.parse(localStorage.getItem("logindata"));
 
     if (myValue) {
-      console.log("token", myValue.token);
-      console.log("user", myValue.user);
       dispatch({ type: "LOGIN", payload: myValue.user });
     }
   }, [logIn]);
 
   return (
-    <>
+    <div className="bg">
       <MainNavBar />
-      {logIn && <TabBar />}
-      {/* <BooksCard /> */}
-    </>
+      {logIn ? <TabBar /> : <div className="dashboard"> <PublicLibrary /> </div>}
+    </div>
   );
 };
 

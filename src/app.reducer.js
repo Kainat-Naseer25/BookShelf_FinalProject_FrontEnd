@@ -1,7 +1,13 @@
 const initalState = {
   user: null,
   logIn: false,
-  loginError: false
+  loginError: false,
+  descriptionModal: false,
+  addModal: false,
+  editModal: false,
+  cdata: "",
+  edata: "",
+  type: "public"
 };
 
 export function appReducer(state = initalState, action) {
@@ -10,6 +16,18 @@ export function appReducer(state = initalState, action) {
       return { ...state, user: action.payload, logIn: true };
     case "LOGIN-ERROR":
       return { ...state, loginError: !state.loginError };
+    case "DESCRIPTION-MODAL":
+      return {
+        ...state,
+        descriptionModal: action.payload.show,
+        cdata: action.payload.cdata,
+      };
+    case "ADD-MODAL":
+      return { ...state, addModal: action.payload };
+    case "EDIT-MODAL":
+      return { ...state, editModal: action.payload.editModal, edata: action.payload.edata  };
+    case "TYPE":
+      return { ...state, type: action.payload };
     case "LOGOUT":
       return { ...state, user: null, logIn: false };
     default:

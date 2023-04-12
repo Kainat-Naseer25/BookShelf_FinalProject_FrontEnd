@@ -6,6 +6,11 @@
   padding-right: 150px;
   border-radius: 100px;
 }
+.topbar{
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
 
 .appAside {
   width: 55%;
@@ -134,4 +139,20 @@
 
 .customCursor:hover{
   cursor: pointer;
+}
+
+.addbooks{
+  font-size: large;
+  font-weight: bolder;
+  color: #6b5b95;
+}
+
+.bg{
+  background: linear-gradient(to left,  #733ad525, #d53a9c25);
+  align-items: center;
+  align-content: center;
+  text-align: center;
+}
+.dashboard{
+  padding: 80px;
 }
