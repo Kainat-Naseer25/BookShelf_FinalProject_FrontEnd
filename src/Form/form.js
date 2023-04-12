@@ -4,7 +4,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { useMutation } from "react-query";
 import axios from "axios";
 import "./form.css";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 const DataForm = () => {
   const [modal, setModal] = useState(true);
@@ -15,17 +15,19 @@ const DataForm = () => {
   const [ISBN, setISBN] = useState("");
   const [category, setCategory] = useState("");
   const [visibility, setVisibility] = useState(false);
-  const [isPublic, setIsPublic] = useState(false);
   const [image, setImage] = useState(null);
   const [access, setAccess] = useState("");
-  const [addedBy, setaddedBy] = useState("");
+  const dispatch = useDispatch();
 
-  const { user } = useSelector((state) => ({
+  const { user, addModal } = useSelector((state) => ({
     user: state.appReducer.user,
+    addModal: state.appReducer.addModal
   }));
+  const [addedBy, setaddedBy] = useState(user._id);
 
   const mutation = useMutation((body) => {
-    setaddedBy(user._id);
+    console.log("mutation",addedBy);
+    console.log(body);
     return axios.post("http://localhost:8000/crud/books/create", {
       BookName: body.book,
       Author: body.author,
@@ -38,12 +40,11 @@ const DataForm = () => {
     });
   });
 
-  const toggle = () => setModal(!modal);
+  const toggle = () => dispatch({ type: "ADD-MODAL", payload: false });
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(user._id);
-    // Do something with the form data, e.g. send it to the server
+    console.log("handle submit",addedBy);
     mutation.mutate({
       book,
       author,
@@ -65,9 +66,6 @@ const DataForm = () => {
       setCategory(value);
     }
   };
-  const handleVisibilityChange = () => {
-    setIsPublic(!isPublic);
-  };
 
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
@@ -79,9 +77,14 @@ const DataForm = () => {
     console.log(event.target.value);
   }
 
+  const modalStyles = {
+    width: '500px',
+    height: '300px',
+  };
+
   return (
     <div>
-      <Modal isOpen={modal} toggle={toggle}>
+      <Modal isOpen={addModal} toggle={toggle} className="modal-lg" style={modalStyles}>
         <ModalHeader toggle={toggle} className="addmodalHead">
           Add New Book
         </ModalHeader>

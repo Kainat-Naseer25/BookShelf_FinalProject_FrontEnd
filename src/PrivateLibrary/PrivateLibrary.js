@@ -2,12 +2,17 @@ import React, { useState } from "react";
 import addbtn from "./button.png";
 import DataForm from "../Form/form";
 import BooksCard from "../Card/Card";
+import { useSelector, useDispatch } from "react-redux";
 import "../App.css";
 
 const PrivateLibrary = (props) => {
+  const dispatch = useDispatch();
+  const { addModal } = useSelector((state) => ({
+    addModal: state.appReducer.addModal
+  }));
     const [showModal, setShowModal] = useState(false);
     const addBook = () => {
-        setShowModal(true)
+      dispatch({ type: "ADD-MODAL", payload: !addModal });
     }
   return (
     <div>
@@ -21,7 +26,7 @@ const PrivateLibrary = (props) => {
           }}
           onClick={addBook}
         />
-        {showModal && <DataForm show={showModal}/>}
+        {addModal && <DataForm show={showModal}/>}
         <BooksCard />
     </div>
   );
