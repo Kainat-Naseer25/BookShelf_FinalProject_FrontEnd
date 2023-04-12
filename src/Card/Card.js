@@ -22,11 +22,15 @@ import {
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useSelector } from "react-redux";
 import ViewDescription from "../ViewDescription/ViewDescription";
-
+import DataForm from '../Form/form';
 
 function BooksCard() {
   const [showModal, setShowModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [cardData, setCardData] = useState("");
+  const [editFormData, setEditFormData] = useState({});
+  
+  
   const viewDiscription = (item) => {
     setShowModal(true);
     setCardData(item);
@@ -57,7 +61,11 @@ function BooksCard() {
       }
     }
   );
-
+   // Edit User Book
+   const handleEditBook = (item) => {
+    setShowEditModal(true);
+    setEditFormData(item);
+  };
   const handleDeleteBook = (id) => {
     deleteBook.mutate(id);
   }; 
@@ -69,6 +77,7 @@ function BooksCard() {
     <CardGroup className="page">
       <Row className="mainRow">
       {showModal && <ViewDescription show={showModal} data={cardData} />}
+      {showEditModal && <DataForm show={showEditModal} data={editFormData} />}
         {data.map((item) => (
           <Col className="column mb-5" key={item.id} item={item}>
             <Card className="card mt-5">
@@ -108,7 +117,7 @@ function BooksCard() {
                 </CardText>
                 <div className="bottom">
                   <div className="pb-2">
-                    <img src={edit} alt="Your Image" className="ed" />{" "}
+                    <img src={edit} alt="Your Image" className="ed" onClick={() => handleEditBook(item)} />{" "}
                     <span> Edit </span>
                     <span className="px-3"> |</span>
                     <img src={deleted} alt="Your Image" className="de" onClick={() => handleDeleteBook(item._id)} />{" "}

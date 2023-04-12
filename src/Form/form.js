@@ -6,7 +6,9 @@ import axios from "axios";
 import "./form.css";
 import { useSelector } from "react-redux";
 
-const DataForm = () => {
+const DataForm = (props) => {
+  const data = props.data;
+  console.log(data)
   const [modal, setModal] = useState(true);
   const [book, setBook] = useState("");
   const [author, setAuthor] = useState("");
@@ -18,14 +20,14 @@ const DataForm = () => {
   const [isPublic, setIsPublic] = useState(false);
   const [image, setImage] = useState(null);
   const [access, setAccess] = useState("");
-  const [addedBy, setaddedBy] = useState("");
 
   const { user } = useSelector((state) => ({
     user: state.appReducer.user,
   }));
+  const [addedBy, setaddedBy] = useState(user._id);
+
 
   const mutation = useMutation((body) => {
-    setaddedBy(user._id);
     return axios.post("http://localhost:8000/crud/books/create", {
       BookName: body.book,
       Author: body.author,
@@ -92,6 +94,7 @@ const DataForm = () => {
               <input
                 type="text"
                 name="bookName"
+                value={data ? data.BookName : book}
                 className="addform-control"
                 onChange={(e) => setBook(e.target.value)}
                 required
@@ -102,6 +105,7 @@ const DataForm = () => {
               <input
                 type="text"
                 name="authorName"
+                value={data ? data.Author : author}
                 className="addform-control"
                 onChange={(e) => setAuthor(e.target.value)}
                 required
@@ -112,6 +116,7 @@ const DataForm = () => {
               <input
                 type="text"
                 name="rating"
+                value={data ? data.Rating : rating}
                 className="addform-control"
                 onChange={(e) => setRating(e.target.value)}
                 required
@@ -122,6 +127,7 @@ const DataForm = () => {
               <input
                 type="text"
                 name="price"
+                value={data ? data.Price : price}
                 className="addform-control"
                 onChange={(e) => setPrice(e.target.value)}
                 required
@@ -132,6 +138,7 @@ const DataForm = () => {
               <input
                 type="text"
                 name="ISBN"
+                value={data ? data.ISBN : ISBN}
                 className="addform-control"
                 onChange={(e) => setISBN(e.target.value)}
                 required
@@ -145,8 +152,9 @@ const DataForm = () => {
                   type="radio"
                   value="public"
                   name="access"
+                  //value={data ? data.visibility : ""}
                   className="form-check-input"
-                  checked={access === "public"}
+                  checked={data && data.visibility === "public"}
                   required
                 />
                 <label htmlFor="public" className="addform-check-label">
@@ -156,7 +164,8 @@ const DataForm = () => {
                   type="radio"
                   value="private"
                   name="access"
-                  checked={access === "private"}
+                  //value={data ? data.visibility : ""}
+                  checked={data && data.visibility === "private"}
                   required
                 />
                 <label htmlFor="public" className="addform-check-label">
@@ -183,7 +192,8 @@ const DataForm = () => {
                 <select
                   name="category"
                   className="addform-control mr-2"
-                  value={category}
+                  //value={category}
+                  value={data && data.Category ? data.Category : category}
                   onChange={handleCategoryChange}
                 >
                   <option value="">--Select--</option>
