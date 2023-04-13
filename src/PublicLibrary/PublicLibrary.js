@@ -5,7 +5,7 @@ import {
   CarouselControl,
   CarouselIndicators,
   CarouselCaption,
-  CardGroup, Row
+  CardGroup, Row, Col
 } from "reactstrap";
 import "./PublicLibrary.css";
 import { useQuery } from "react-query";
@@ -76,18 +76,20 @@ const PublicLibrary = () => {
     );
   });
   const dispatch = useDispatch();
-  const { descriptionModal, cdata } = useSelector(
+  const { descriptionModal, cdata, menu } = useSelector(
     (state) => ({
       descriptionModal: state.appReducer.descriptionModal,
       cdata: state.appReducer.cdata,
+      menu: state.appReducer.menu
     })
   );
 
   useEffect(() => {
     dispatch({ type: "TYPE", payload: "public" });
   }, []);
+  console.log(`http://localhost:8000/crud/books/public/read/${menu}`);
   const { isLoading, error, data } = useQuery("myData", () =>
-    fetch(`http://localhost:8000/crud/books/public/read`).then(
+    fetch(`http://localhost:8000/crud/books/public/read/${menu}`).then(
       (res) => res.json()
     )
   );
@@ -120,27 +122,24 @@ const PublicLibrary = () => {
           onClickHandler={next}
         />
       </Carousel>
-
-      <div className="forSpace">
-      </div>
-      {/* <Sidebar/> */}
-      <div className="dashboard">
-        {data && data.length === 0 && <p>Currently No Books in My BookShelf</p>}
-        <CardGroup>
-          <Row className="mainRow">
-            {data && data.map((key, index) => (
-              <BooksCard
-                className="column mb-5"
-                key={index}
-                item={key}
-                data={data}
-              />
-            ))}
-            ;{descriptionModal && <ViewDescription data={cdata} />}
-          </Row>
-        </CardGroup>
-      </div>
-
+      <Row>
+        <div className="dashboard">
+          {data && data.length === 0 && <p>Currently No Books in PublicLibrary</p>}
+          <CardGroup>
+            <Row className="mainRow">
+              {data && data.map((key, index) => (
+                <BooksCard
+                  className="column mb-5"
+                  key={index}
+                  item={key}
+                  data={data}
+                />
+              ))}
+              {descriptionModal && <ViewDescription data={cdata} />}
+            </Row>
+          </CardGroup>
+        </div>
+      </Row>
     </div>
   );
 };

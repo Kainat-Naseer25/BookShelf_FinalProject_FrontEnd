@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
 import "./NavBar.css";
@@ -19,6 +19,22 @@ function MainNavBar() {
   const navigateToLogin = () => {
     navigate("/auth/signin");
   };
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const isScrolled = window.scrollY > 0;
+      if (isScrolled !== scrolled) {
+        setScrolled(isScrolled);
+      }
+    };
+
+    document.addEventListener('scroll', handleScroll);
+
+    return () => {
+      document.removeEventListener('scroll', handleScroll);
+    };
+  }, [scrolled]);
   const Logout = () => {
     fetch("http://localhost:8000/users/logout", {
       credentials: "include",
