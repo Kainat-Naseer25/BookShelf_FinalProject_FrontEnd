@@ -10,7 +10,7 @@ import {
   Col,
 } from "reactstrap";
 import "./PublicLibrary.css";
-import { useQuery } from "react-query";
+import { QueryClient, useQuery } from "react-query";
 import slide1 from "./slide1.jpg";
 import slide2 from "./slide2.jpg";
 import slide3 from "./slide3.jpg";
@@ -42,6 +42,8 @@ const items = [
 ];
 
 const PublicLibrary = () => {
+  const queryClient = new QueryClient();
+
   const [activeIndex, setActiveIndex] = useState(0);
   const [animating, setAnimating] = useState(false);
 
@@ -89,11 +91,24 @@ const PublicLibrary = () => {
   useEffect(() => {
     dispatch({ type: "TYPE", payload: "public" });
   }, []);
-  const { isLoading, data, isError } = useQuery("myData", () =>
-    fetch(`http://localhost:8000/crud/books/public/read/${menu}`).then((res) =>
-      res.json()
-    )
+
+  const { isLoading, data, isError } = useQuery(
+    "mypublicData",
+    () =>
+      fetch(`http://localhost:8000/crud/books/public/read/${menu}`).then(
+        (res) => res.json()
+      ),
+    {
+      enabled: true, // always fetch data on every render
+      refetchOnMount: false,
+    }
   );
+
+  useEffect(() => {
+    if (menu !== "Search") {
+      queryClient.invalidateQueries("mypublicData");
+    }
+  }, [menu]);
 
   return (
     <div>
@@ -150,31 +165,31 @@ const PublicLibrary = () => {
         </div>
       )}
       <div className="dashboard">
-        {data && data.length === 0 && (
+        {menu !== "Search" && data && data.length === 0 && (
           <p>Currently No Books in Public Library</p>
         )}
         <CardGroup>
           <Row className="mainRow">
-            {data &&
-              menu !== "Search" &&
-              data.map((key, index) => (
-                <BooksCard
-                  className="column mb-5"
-                  key={index}
-                  item={key}
-                  data={data}
-                />
-              ))}
-            {menu === "Search" &&
-              search &&
-              search.map((key, index) => (
-                <BooksCard
-                  className="column mb-5"
-                  key={index}
-                  item={key}
-                  data={search}
-                />
-              ))}
+            {menu === "Search"
+              ? search &&
+                search.map((key, index) => (
+                  <BooksCard
+                    className="column mb-5"
+                    key={index}
+                    item={key}
+                    data={search}
+                  />
+                ))
+              : data &&
+                data.map((key, index) => (
+                  <BooksCard
+                    className="column mb-5"
+                    key={index}
+                    item={key}
+                    data={data}
+                  />
+                ))}
+
             {descriptionModal && <ViewDescription data={cdata} />}
           </Row>
         </CardGroup>

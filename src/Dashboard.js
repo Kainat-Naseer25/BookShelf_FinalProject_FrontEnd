@@ -6,10 +6,12 @@ import PublicLibrary from "./PublicLibrary/PublicLibrary";
 import "./App.css";
 import Sidebar from "./Sidebar/Sidebar";
 import { Col, Row } from "reactstrap";
+import BookFooter from "./Footer/BookFooter";
 
 const Dashboard = () => {
-  const { logIn } = useSelector((state) => ({
+  const { logIn, menu } = useSelector((state) => ({
     logIn: state.appReducer.logIn,
+    menu: state.appReducer.menu,
   }));
 
   const dispatch = useDispatch();
@@ -26,13 +28,14 @@ const Dashboard = () => {
     <div className="bg">
       <MainNavBar />
       <Row>
-        <Col md='3'>
+        <Col md="2">
           <Sidebar />
         </Col>
-        <Col md='9'>
+        <Col md="10">
           {logIn ? <TabBar /> : <div style={{ marginTop: "150px" }}>
-            <PublicLibrary />
+            {menu && <PublicLibrary />}
           </div>}
+          <BookFooter />
         </Col>
       </Row>
     </div>

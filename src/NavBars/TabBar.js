@@ -6,7 +6,6 @@ import Tab from "./Tab";
 import PrivateLibrary from "../PrivateLibrary/PrivateLibrary";
 import MyBookShelf from "../MyBookShelf/MyBookShelf";
 import PublicLibrary from "../PublicLibrary/PublicLibrary";
-import Sidebar from "../Sidebar/Sidebar";
 import { useSelector } from "react-redux";
 
 function TabBar() {

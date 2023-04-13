@@ -18,26 +18,31 @@ import {
   CardText,
   Button,
 } from "reactstrap";
-import { useQuery, useMutation, useQueryClient, QueryClient } from "react-query";
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  QueryClient,
+} from "react-query";
 import { useDispatch, useSelector } from "react-redux";
 import ViewDescription from "../ViewDescription/ViewDescription";
-import DataForm from '../Form/form';
+import DataForm from "../Form/form";
 
 function BooksCard(props) {
-  const {item} = props;
-  const [showEditModal, setShowEditModal] = useState(false);
-  const [editFormData, setEditFormData] = useState({});
+  const { item } = props;
 
   const dispatch = useDispatch();
   const queryClient = new QueryClient();
 
-
-  const { descriptionModal, user, type, editModal } = useSelector((state) => ({
-    descriptionModal: state.appReducer.descriptionModal,
-    user: state.appReducer.user,
-    type: state.appReducer.type,
-    editModal: state.appReducer.editModal,
-  }));
+  const { descriptionModal, user, type, editModal, logIn } = useSelector(
+    (state) => ({
+      descriptionModal: state.appReducer.descriptionModal,
+      user: state.appReducer.user,
+      type: state.appReducer.type,
+      editModal: state.appReducer.editModal,
+      logIn: state.appReducer.logIn,
+    })
+  );
 
   const viewDiscription = (item) => {
     dispatch({
@@ -96,20 +101,29 @@ function BooksCard(props) {
       return res.json();
     },
     {
-      onSettled: () => {
-        queryClient.invalidateQueries("myData");
+      onSuccess: (data, variables) => {
+        // update the cache with the server response
+        queryClient.setQueryData("myprivateData", data);
+
+        // optionally, you can refetch the data to ensure it is up-to-date
+        queryClient.invalidateQueries("myprivateData");
+      },
+      onError: (err, variables, previousValue) => {
+        // reset the cache on error
+        queryClient.setQueryData("myprivateData", previousValue);
       },
     }
   );
-  // Edit User Book
-  const handleEditBook = (item) => {
-    dispatch({ type: "EDIT-MODAL", payload: { editModal: !editModal, edata: item } });
-    // console.log(item);
-    // setShowEditModal(true);
-    // setEditFormData(item);
-  };
+
   const handleDeleteBook = (id) => {
     deleteBook.mutate(id);
+  };
+
+  const handleEditBook = (item) => {
+    dispatch({
+      type: "EDIT-MODAL",
+      payload: { editModal: !editModal, edata: item },
+    });
   };
 
   return (
@@ -146,7 +160,7 @@ function BooksCard(props) {
             title="Remove from My BookShelf"
             onClick={() => removefromMyBookShelf(item._id)}
           />
-        ) : (
+        ) : logIn ? (
           <img
             src={addicon}
             alt="Your Image"
@@ -154,6 +168,8 @@ function BooksCard(props) {
             title="Add to My BookShelf"
             onClick={() => addtoMyBookShelf(item._id)}
           />
+        ) : (
+          <></>
         )}
         <CardBody>
           <CardTitle tag="h5">{item.BookName}</CardTitle>
@@ -173,7 +189,10 @@ function BooksCard(props) {
           <div className="bottom">
             {type === "private" && (
               <div className="pb-2">
-                <span className="customCursor" onClick={() => handleEditBook(item)}>
+                <span
+                  className="customCursor"
+                  onClick={() => handleEditBook(item)}
+                >
                   <img src={edit} alt="Your Image" className="ed" /> Edit{" "}
                 </span>
                 <span className="px-3"> |</span>
@@ -199,7 +218,7 @@ function BooksCard(props) {
         </CardBody>
       </Card>
     </Col>
-  )
+  );
 }
 
 export default BooksCard;

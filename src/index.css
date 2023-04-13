@@ -6,10 +6,9 @@
 }
 
 body {
-  margin: 0;
-  padding: 0;
+  background: linear-gradient(to left,  #733ad525, #d53a9c25);
 }
 
-.mr-20 {
+/* .mr-20 {
   margin-right: 20px !important;
-}
+} */

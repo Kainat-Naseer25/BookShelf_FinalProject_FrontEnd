@@ -53,10 +53,16 @@
   padding-left: 100px;
   padding-right: 100px;
   text-align: center;
+  align-items: center;
+  align-content: center;
 }
-/* .page{
-  background: linear-gradient(to left,  #733ad525, #d53a9c25);
-} */
+
+.alert{
+  text-align: center;
+  align-items: center;
+  align-content: center;
+}
+
 .book-price-text {
   color: #2a9f1d;
   font-family: "Poppins";

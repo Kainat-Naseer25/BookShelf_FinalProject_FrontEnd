@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
-import { InputGroup, FormControl, Button } from 'react-bootstrap';
-import { FaSearch } from 'react-icons/fa';
-import axios from 'axios';
+import React, { useState } from "react";
+import { InputGroup, FormControl, Button } from "react-bootstrap";
+import { FaSearch } from "react-icons/fa";
+import axios from "axios";
+import { useDispatch } from "react-redux";
 
 function SearchBar(props) {
-  const [query, setQuery] = useState('');
+  const dispatch = useDispatch();
+  const [query, setQuery] = useState("");
 
   function handleQueryChange(event) {
     setQuery(event.target.value);
@@ -16,11 +18,12 @@ function SearchBar(props) {
   }
 
   function search(query) {
-    axios.get('http://localhost:8000/search/search', { params: { q: query } })
-      .then(response => {
+    axios
+      .get("http://localhost:8000/search/search", { params: { q: query } })
+      .then((response) => {
         props.onSearch(response.data);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
       });
   }
@@ -34,7 +37,7 @@ function SearchBar(props) {
           value={query}
           onChange={handleQueryChange}
         />
-        <Button type="submit" variant="primary" onClick={handleSubmit}>
+        <Button type="submit" variant="primary">
           <FaSearch />
         </Button>
       </InputGroup>

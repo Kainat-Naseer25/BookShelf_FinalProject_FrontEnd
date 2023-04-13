@@ -41,7 +41,7 @@ export function appReducer(state = initalState, action) {
     case "MENU":
       return { ...state, menu: action.payload };
     case "SEARCH":
-      return { ...state, search: action.payload };
+      return { ...state, search: action.payload.search, menu: action.payload.menu };
     case "LOGOUT":
       return { ...state, user: null, logIn: false };
     default:

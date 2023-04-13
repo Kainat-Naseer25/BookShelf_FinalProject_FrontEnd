@@ -28,6 +28,10 @@ const Sidebar = () => {
     console.log("SEARCH", searchResults);
   }
 
+  function handleSearch(searched) {
+    dispatch({ type: "SEARCH", payload: {menu: "Search" , search: searched }});
+  }
+
   useEffect(() => {
     const handleScroll = () => {
       const isScrolled = window.scrollY > 0;
@@ -149,14 +153,6 @@ const Sidebar = () => {
               onClick={() => handleMenuItemClick("Sports")}
             >
               <CDBSidebarMenuItem icon="gamepad">Sports</CDBSidebarMenuItem>
-            </NavLink>
-            <NavLink
-              exact
-              to="/"
-              activeClassName="activeClicked"
-              onClick={() => handleMenuItemClick("Others")}
-            >
-              <CDBSidebarMenuItem icon="ellipsis-h">Others</CDBSidebarMenuItem>
             </NavLink>
           </CDBSidebarMenu>
         </CDBSidebarContent>

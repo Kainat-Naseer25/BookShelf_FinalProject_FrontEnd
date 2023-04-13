@@ -38,6 +38,7 @@ const DataForm = (props) => {
       setISBN(data.ISBN);
       setAccess(data.visibility);
       setCategory(data.Category);
+      setImage(data.CoverImage);
     }
   }, [data]);
 
@@ -54,6 +55,7 @@ const DataForm = (props) => {
         visibility: body.access,
         Category: body.category,
         AddedBy: body.addedBy,
+        CoverImage: body.image
       });
     }
     else{
@@ -66,6 +68,7 @@ const DataForm = (props) => {
         visibility: body.access,
         Category: body.category,
         AddedBy: body.addedBy,
+        CoverImage: body.image
       });
     }
   });
@@ -245,11 +248,12 @@ const DataForm = (props) => {
             <div className="addform-group">
               <label htmlFor="coverImage">Cover Image:</label>
               <input
-                type="file"
+                type="text"
                 name="coverImage"
-                accept=".jpg,.png,.jpeg"
-                className="addform-control-file"
-                onChange={handleFileUpload}
+                className="addform-control"
+                value={image}
+                onChange={(e) => setImage(e.target.value)}
+                required
               />
             </div>
 
