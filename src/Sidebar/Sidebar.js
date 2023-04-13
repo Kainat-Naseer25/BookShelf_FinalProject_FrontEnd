@@ -7,10 +7,9 @@ import {
   CDBSidebarMenuItem,
 } from "cdbreact";
 import { NavLink } from "react-router-dom";
-import { Form } from 'react-bootstrap';
-import PublicLibrary from "../PublicLibrary/PublicLibrary";
-import { useDispatch, useSelector } from "react-redux";
-import "./Sidebar.css"
+import { useDispatch } from "react-redux";
+import "./Sidebar.css";
+import SearchBar from "../Search/Search";
 
 const Sidebar = () => {
   const dispatch = useDispatch();
@@ -20,6 +19,14 @@ const Sidebar = () => {
   };
 
   const [scrolled, setScrolled] = useState(false);
+  const [searchResults, setSearchResults] = useState([]);
+
+  function handleSearch(searched) {
+    setSearchResults(searched);
+    dispatch({ type: "MENU", payload: "Search" });
+    dispatch({ type: "SEARCH", payload: searchResults });
+    console.log("SEARCH", searchResults);
+  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -29,27 +36,28 @@ const Sidebar = () => {
       }
     };
 
-    document.addEventListener('scroll', handleScroll);
+    document.addEventListener("scroll", handleScroll);
 
     return () => {
-      document.removeEventListener('scroll', handleScroll);
+      document.removeEventListener("scroll", handleScroll);
     };
   }, [scrolled]);
-
 
   return (
     <div>
       <CDBSidebar
         textColor="#fff"
         backgroundColor="Linear-gradient(to bottom, #36b8f0, #e95897)"
-        style={{ position: 'fixed', top: '90px' }} >
+        style={{ position: "fixed", top: "90px" }}
+        width="100%"
+      >
         <div style={{ padding: "20px" }}>
-          <Form.Group>
-            <Form.Control type="text" placeholder="Search book here..." />
-          </Form.Group>
+          <SearchBar onSearch={handleSearch}/>
         </div>
-        <CDBSidebarHeader style={{ height: '70px', marginTop: '-20px' }}
-          prefix={<i className="fa fa-bars fa-large"></i>}>
+        <CDBSidebarHeader
+          style={{ height: "70px", marginTop: "-20px" }}
+          prefix={<i className="fa fa-bars fa-large"></i>}
+        >
           <a
             href="/"
             className="text-decoration-none"
@@ -58,22 +66,46 @@ const Sidebar = () => {
             Category
           </a>
         </CDBSidebarHeader>
-        <CDBSidebarContent style={{ height: 'calc(100vh - 56px)', marginTop: '-50px' }}
-        >
-          <CDBSidebarMenu >
-            <NavLink exact to="/" activeClassName="activeClicked" onClick={() => handleMenuItemClick("All")}>
+        <CDBSidebarContent style={{ marginTop: "-50px" }}>
+          <CDBSidebarMenu>
+            <NavLink
+              exact
+              to="/"
+              activeClassName="activeClicked"
+              onClick={() => handleMenuItemClick("All")}
+            >
               <CDBSidebarMenuItem icon="th">All</CDBSidebarMenuItem>
             </NavLink>
-            <NavLink exact to="/" activeClassName="activeClicked" onClick={() => handleMenuItemClick("Biography")}>
+            <NavLink
+              exact
+              to="/"
+              activeClassName="activeClicked"
+              onClick={() => handleMenuItemClick("Biography")}
+            >
               <CDBSidebarMenuItem icon="user-alt">Biography</CDBSidebarMenuItem>
             </NavLink>
-            <NavLink exact to="/" activeClassName="activeClicked" onClick={() => handleMenuItemClick("Children")}>
+            <NavLink
+              exact
+              to="/"
+              activeClassName="activeClicked"
+              onClick={() => handleMenuItemClick("Children")}
+            >
               <CDBSidebarMenuItem icon="child">Children</CDBSidebarMenuItem>
             </NavLink>
-            <NavLink exact to="/" activeClassName="activeClicked" onClick={() => handleMenuItemClick("Computing")}>
+            <NavLink
+              exact
+              to="/"
+              activeClassName="activeClicked"
+              onClick={() => handleMenuItemClick("Computing")}
+            >
               <CDBSidebarMenuItem icon="desktop">Computing</CDBSidebarMenuItem>
             </NavLink>
-            <NavLink exact to="/" activeClassName="activeClicked" onClick={() => handleMenuItemClick("Entertainment")}>
+            <NavLink
+              exact
+              to="/"
+              activeClassName="activeClicked"
+              onClick={() => handleMenuItemClick("Entertainment")}
+            >
               <CDBSidebarMenuItem icon="music">
                 Entertainment
               </CDBSidebarMenuItem>
