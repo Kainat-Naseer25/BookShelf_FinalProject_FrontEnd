@@ -29,7 +29,7 @@ const MyBookShelf = (props) => {
   if (error) return `An error has occurred: ${error.message}`;
 
   return (
-    <div>
+    <div className="dashboard">
       {data && data.length === 0 && <p>Currently No Books in My BookShelf</p>}
       <CardGroup>
         <Row className="mainRow">

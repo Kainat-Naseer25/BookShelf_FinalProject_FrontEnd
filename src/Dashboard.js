@@ -2,6 +2,10 @@ import React, { useEffect } from "react";
 import MainNavBar from "./NavBars/MainNavBar";
 import TabBar from "./NavBars/TabBar";
 import { useSelector, useDispatch } from "react-redux";
+import PublicLibrary from "./PublicLibrary/PublicLibrary";
+import "./App.css";
+import Sidebar from "./Sidebar/Sidebar";
+import { Col, Row } from "reactstrap";
 
 const Dashboard = () => {
   const { logIn } = useSelector((state) => ({
@@ -9,7 +13,7 @@ const Dashboard = () => {
   }));
 
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
     const myValue = JSON.parse(localStorage.getItem("logindata"));
 
@@ -19,11 +23,19 @@ const Dashboard = () => {
   }, [logIn]);
 
   return (
-    <>
+    <div className="bg">
       <MainNavBar />
-      {logIn && <TabBar />}
-      {/* <BooksCard /> */}
-    </>
+      <Row>
+        <Col md='3'>
+          <Sidebar />
+        </Col>
+        <Col md='9'>
+          {logIn ? <TabBar /> : <div style={{ marginTop: "150px" }}>
+            <PublicLibrary />
+          </div>}
+        </Col>
+      </Row>
+    </div>
   );
 };
 

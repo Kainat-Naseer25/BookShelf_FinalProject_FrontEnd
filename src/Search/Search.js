@@ -1,17 +1,26 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 
 function BookSearch() {
   const [searchTerm, setSearchTerm] = useState('');
   const [books, setBooks] = useState([]);
+  const [error, setError] = useState(null);
 
   const handleSearch = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.get(`/api/books?search=${searchTerm}`);
-      setBooks(response.data);
+      const response = await fetch(`/api/books?search=${searchTerm}`);
+      const data = await response.json();
+      if (response.ok) {
+        setBooks(data);
+        setError(null);
+      } else {
+        setError(data.message);
+        setBooks([]);
+      }
     } catch (error) {
       console.log(error);
+      setError('An error occurred while searching for books.');
+      setBooks([]);
     }
   };
 
@@ -21,6 +30,7 @@ function BookSearch() {
         <input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
         <button type="submit">Search</button>
       </form>
+      {error && <div>{error}</div>}
       <ul>
         {books.map((book) => (
           <li key={book.id}>{book.name}</li>
