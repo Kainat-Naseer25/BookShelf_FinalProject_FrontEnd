@@ -199,7 +199,7 @@ function BooksCard(props) {
         </CardBody>
       </Card>
     </Col>
-  );
+  )
 }
 
 export default BooksCard;

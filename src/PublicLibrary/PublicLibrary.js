@@ -1,5 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { Carousel, CarouselItem, CarouselControl, CarouselIndicators, CarouselCaption, CardGroup, Row } from 'reactstrap';
+import React, { useEffect, useState } from "react";
+import {
+  Carousel,
+  CarouselItem,
+  CarouselControl,
+  CarouselIndicators,
+  CarouselCaption,
+  CardGroup, Row
+} from "reactstrap";
 import "./PublicLibrary.css";
 import { useQuery } from "react-query";
 import slide1 from "./slide1.jpg";
@@ -10,6 +17,7 @@ import BooksCard from '../Card/Card';
 import "../App.css"
 import ViewDescription from '../ViewDescription/ViewDescription';
 import { useDispatch, useSelector } from 'react-redux';
+import Sidebar from "../Sidebar/Sidebar";
 
 const items = [
   {
@@ -62,44 +70,79 @@ const PublicLibrary = () => {
   const slides = items.map((item) => {
     return (
       <CarouselItem onExiting={onExiting} onExited={onExited} key={item.src}>
-        <img src={item.src} alt={item.altText} className="images"  />
+        <img src={item.src} alt={item.altText} className="images" />
         <CarouselCaption captionText={item.caption} />
       </CarouselItem>
     );
   });
-    const dispatch = useDispatch();
-    const { descriptionModal, cdata } = useSelector(
-        (state) => ({
-          descriptionModal: state.appReducer.descriptionModal,
-          cdata: state.appReducer.cdata,
-        })
-      );
+  const dispatch = useDispatch();
+  const { descriptionModal, cdata } = useSelector(
+    (state) => ({
+      descriptionModal: state.appReducer.descriptionModal,
+      cdata: state.appReducer.cdata,
+    })
+  );
 
-    useEffect(() => {
-        dispatch({type: "TYPE", payload: "public"});
-      },[]);
-    const { isLoading, error, data } = useQuery("myData", () =>
-        fetch(`http://localhost:8000/crud/books/public/read`).then(
-            (res) => res.json()
-        )
-    );
-    if (isLoading) return "Loading...";
+  useEffect(() => {
+    dispatch({ type: "TYPE", payload: "public" });
+  }, []);
+  const { isLoading, error, data } = useQuery("myData", () =>
+    fetch(`http://localhost:8000/crud/books/public/read`).then(
+      (res) => res.json()
+    )
+  );
+  if (isLoading) return "Loading...";
 
-    if (error) return `An error has occurred: ${error.message}`;
+  if (error) return `An error has occurred: ${error.message}`;
 
-    return (
-        <Carousel
-            activeIndex={activeIndex}
-            next={next}
-            previous={previous}
-            interval={5000}
-        >
-            <CarouselIndicators items={items} activeIndex={activeIndex} onClickHandler={goToIndex} />
-            {slides}
-            <CarouselControl direction="prev" directionText="Previous" onClickHandler={previous} />
-            <CarouselControl direction="next" directionText="Next" onClickHandler={next} />
-        </Carousel>
-    );
-}
+  return (
+    <div>
+      <Carousel
+        activeIndex={activeIndex}
+        next={next}
+        previous={previous}
+        interval={5000}
+      >
+        <CarouselIndicators
+          items={items}
+          activeIndex={activeIndex}
+          onClickHandler={goToIndex}
+        />
+        {slides}
+        <CarouselControl
+          direction="prev"
+          directionText="Previous"
+          onClickHandler={previous}
+        />
+        <CarouselControl
+          direction="next"
+          directionText="Next"
+          onClickHandler={next}
+        />
+      </Carousel>
+
+      <div className="forSpace">
+      </div>
+      {/* <Sidebar/> */}
+      <div className="dashboard">
+        {data && data.length === 0 && <p>Currently No Books in My BookShelf</p>}
+        <CardGroup>
+          <Row className="mainRow">
+            {data && data.map((key, index) => (
+              <BooksCard
+                className="column mb-5"
+                key={index}
+                item={key}
+                data={data}
+              />
+            ))}
+            ;{descriptionModal && <ViewDescription data={cdata} />}
+          </Row>
+        </CardGroup>
+      </div>
+
+    </div>
+  );
+};
 
 export default PublicLibrary;
