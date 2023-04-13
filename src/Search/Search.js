@@ -1,43 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import { InputGroup, FormControl, Button } from "react-bootstrap";
+import { FaSearch } from "react-icons/fa";
+import axios from "axios";
+import { useDispatch } from "react-redux";
 
-function BookSearch() {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [books, setBooks] = useState([]);
-  const [error, setError] = useState(null);
+function SearchBar(props) {
+  const dispatch = useDispatch();
+  const [query, setQuery] = useState("");
 
-  const handleSearch = async (event) => {
+  function handleQueryChange(event) {
+    setQuery(event.target.value);
+  }
+
+  function handleSubmit(event) {
     event.preventDefault();
-    try {
-      const response = await fetch(`/api/books?search=${searchTerm}`);
-      const data = await response.json();
-      if (response.ok) {
-        setBooks(data);
-        setError(null);
-      } else {
-        setError(data.message);
-        setBooks([]);
-      }
-    } catch (error) {
-      console.log(error);
-      setError('An error occurred while searching for books.');
-      setBooks([]);
-    }
-  };
+    search(query);
+  }
+
+  function search(query) {
+    axios
+      .get("http://localhost:8000/search/search", { params: { q: query } })
+      .then((response) => {
+        props.onSearch(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
 
   return (
-    <div>
-      <form onSubmit={handleSearch}>
-        <input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
-        <button type="submit">Search</button>
-      </form>
-      {error && <div>{error}</div>}
-      <ul>
-        {books.map((book) => (
-          <li key={book.id}>{book.name}</li>
-        ))}
-      </ul>
-    </div>
+    <form onSubmit={handleSubmit}>
+      <InputGroup>
+        <FormControl
+          type="text"
+          placeholder="Search"
+          value={query}
+          onChange={handleQueryChange}
+        />
+        <Button type="submit" variant="primary">
+          <FaSearch />
+        </Button>
+      </InputGroup>
+    </form>
   );
 }
 
-export default BookSearch;
+export default SearchBar;

@@ -5,19 +5,22 @@ import {
   CarouselControl,
   CarouselIndicators,
   CarouselCaption,
-  CardGroup, Row, Col
+  CardGroup,
+  Row,
+  Col,
 } from "reactstrap";
 import "./PublicLibrary.css";
-import { useQuery } from "react-query";
+import { QueryClient, useQuery } from "react-query";
 import slide1 from "./slide1.jpg";
 import slide2 from "./slide2.jpg";
 import slide3 from "./slide3.jpg";
 import slide4 from "./slide4.jpg";
-import BooksCard from '../Card/Card';
-import "../App.css"
-import ViewDescription from '../ViewDescription/ViewDescription';
-import { useDispatch, useSelector } from 'react-redux';
+import BooksCard from "../Card/Card";
+import "../App.css";
+import ViewDescription from "../ViewDescription/ViewDescription";
+import { useDispatch, useSelector } from "react-redux";
 import Sidebar from "../Sidebar/Sidebar";
+import { Alert, Spinner } from "react-bootstrap";
 
 const items = [
   {
@@ -39,6 +42,8 @@ const items = [
 ];
 
 const PublicLibrary = () => {
+  const queryClient = new QueryClient();
+
   const [activeIndex, setActiveIndex] = useState(0);
   const [animating, setAnimating] = useState(false);
 
@@ -76,26 +81,36 @@ const PublicLibrary = () => {
     );
   });
   const dispatch = useDispatch();
-  const { descriptionModal, cdata, menu } = useSelector(
-    (state) => ({
-      descriptionModal: state.appReducer.descriptionModal,
-      cdata: state.appReducer.cdata,
-      menu: state.appReducer.menu
-    })
-  );
+  const { descriptionModal, cdata, menu, search } = useSelector((state) => ({
+    descriptionModal: state.appReducer.descriptionModal,
+    cdata: state.appReducer.cdata,
+    menu: state.appReducer.menu,
+    search: state.appReducer.search,
+  }));
+
+  console.log(menu);
 
   useEffect(() => {
     dispatch({ type: "TYPE", payload: "public" });
   }, []);
-  console.log(`http://localhost:8000/crud/books/public/read/${menu}`);
-  const { isLoading, error, data } = useQuery("myData", () =>
-    fetch(`http://localhost:8000/crud/books/public/read/${menu}`).then(
-      (res) => res.json()
-    )
-  );
-  if (isLoading) return "Loading...";
 
-  if (error) return `An error has occurred: ${error.message}`;
+  const { isLoading, data, isError } = useQuery(
+    "mypublicData",
+    () =>
+      fetch(`http://localhost:8000/crud/books/public/read/${menu}`).then(
+        (res) => res.json()
+      ),
+    {
+      enabled: true, // always fetch data on every render
+      refetchOnMount: false,
+    }
+  );
+
+  useEffect(() => {
+    if (menu !== "Search") {
+      queryClient.invalidateQueries("mypublicData");
+    }
+  }, [menu]);
 
   return (
     <div>
@@ -122,24 +137,65 @@ const PublicLibrary = () => {
           onClickHandler={next}
         />
       </Carousel>
-      <Row>
-        <div className="dashboard">
-          {data && data.length === 0 && <p>Currently No Books in PublicLibrary</p>}
-          <CardGroup>
-            <Row className="mainRow">
-              {data && data.map((key, index) => (
-                <BooksCard
-                  className="column mb-5"
-                  key={index}
-                  item={key}
-                  data={data}
-                />
-              ))}
-              {descriptionModal && <ViewDescription data={cdata} />}
-            </Row>
-          </CardGroup>
+      {isLoading && (
+        <div className="p-5 d-flex align-items-center justify-content-center">
+          <Spinner animation="border" />
         </div>
-      </Row>
+      )}
+
+      {isError && (
+        <div
+          className="p-5"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Alert
+            style={{
+              width: "220px",
+              height: "50px",
+              background: "linear-gradient(to right, #36b8f0, #e95897)",
+              color: "white",
+            }}
+          >
+            <p>
+              <b>Error:</b> An error occurred
+            </p>
+          </Alert>
+        </div>
+      )}
+      <div className="dashboard">
+        {menu !== "Search" && data && data.length === 0 && (
+          <p>Currently No Books in Public Library</p>
+        )}
+        <CardGroup>
+          <Row className="mainRow">
+            {menu === "Search"
+              ? search &&
+                search.map((key, index) => (
+                  <BooksCard
+                    className="column mb-5"
+                    key={index}
+                    item={key}
+                    data={search}
+                  />
+                ))
+              : data &&
+                data.map((key, index) => (
+                  <BooksCard
+                    className="column mb-5"
+                    key={index}
+                    item={key}
+                    data={data}
+                  />
+                ))}
+
+            {descriptionModal && <ViewDescription data={cdata} />}
+          </Row>
+        </CardGroup>
+      </div>
     </div>
   );
 };

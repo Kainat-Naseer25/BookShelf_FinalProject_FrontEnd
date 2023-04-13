@@ -1,15 +1,14 @@
-import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useEffect, useState } from "react";
 import BooksCard from "../Card/Card";
 import { useSelector, useDispatch } from "react-redux";
 import { useQuery } from "react-query";
 import "../App.css";
 import "../Card/Card.css";
-import { CardGroup, Row, Spinner } from "reactstrap";
+import { CardGroup, Row } from "reactstrap";
 import ViewDescription from "../ViewDescription/ViewDescription";
-import { Alert } from "react-bootstrap";
+import { Alert, Spinner } from "react-bootstrap";
 
-const MyBookShelf = (props) => {
+const MyBookShelf = () => {
   const dispatch = useDispatch();
   const { user, descriptionModal, cdata } = useSelector((state) => ({
     user: state.appReducer.user,
@@ -21,7 +20,7 @@ const MyBookShelf = (props) => {
     dispatch({ type: "TYPE", payload: "bookshelf" });
   }, []);
 
-  const { isLoading, error, data, isError } = useQuery("myData", () =>
+  const { isLoading, data, isError } = useQuery("mybookshelfData", () =>
     fetch(`http://localhost:8000/crud/books/bookshelf/read/${user._id}`).then(
       (res) => res.json()
     )
@@ -58,22 +57,23 @@ const MyBookShelf = (props) => {
         </div>
       )}
 
-      {data && data.length === 0 && <p>Currently No Books in My BookShelf</p>}
-      <CardGroup>
-        <Row className="mainRow">
-          {data &&
-            data.map((key, index) => (
-              <BooksCard
-                className="column mb-5"
-                key={index}
-                item={key}
-                data={data}
-              />
-            ))}
-          ;{descriptionModal && <ViewDescription data={cdata} />}
-          {/* {alert && <AlertModal />} */}
-        </Row>
-      </CardGroup>
+      <div className="dashboard">
+        {data && data.length === 0 && <p>Currently No Books in My BookShelf</p>}
+        <CardGroup>
+          <Row className="mainRow">
+            {data &&
+              data.map((key, index) => (
+                <BooksCard
+                  className="column mb-5"
+                  key={index}
+                  item={key}
+                  data={data}
+                />
+              ))}
+            {descriptionModal && <ViewDescription data={cdata} />}
+          </Row>
+        </CardGroup>
+      </div>
     </div>
   );
 };

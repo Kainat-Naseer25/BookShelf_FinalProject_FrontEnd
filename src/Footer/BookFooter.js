@@ -6,6 +6,7 @@ import logo from "../NavBars/bookshelf.png";
 const BookFooter = () => {
   return (
     <footer
+      width="100%"
       className="text-center text-lg-start text-white"
       style={{ background: "linear-gradient(to left, #36b8f0, #e95897)" }}
     >

@@ -7,9 +7,9 @@ import {
   CDBSidebarMenuItem,
 } from "cdbreact";
 import { NavLink } from "react-router-dom";
-import { Form } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import "./Sidebar.css"
+import "./Sidebar.css";
+import SearchBar from "../Search/Search";
 
 const Sidebar = () => {
   const dispatch = useDispatch();
@@ -19,6 +19,10 @@ const Sidebar = () => {
   };
 
   const [scrolled, setScrolled] = useState(false);
+
+  function handleSearch(searched) {
+    dispatch({ type: "SEARCH", payload: {menu: "Search" , search: searched }});
+  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -41,11 +45,10 @@ const Sidebar = () => {
         textColor="#fff"
         backgroundColor="Linear-gradient(to bottom, #36b8f0, #e95897)"
         style={{ position: "fixed", top: "90px" }}
+        width="100%"
       >
         <div style={{ padding: "20px" }}>
-          <Form.Group>
-            <Form.Control type="text" placeholder="Search book here..." />
-          </Form.Group>
+          <SearchBar onSearch={handleSearch}/>
         </div>
         <CDBSidebarHeader
           style={{ height: "70px", marginTop: "-20px" }}
@@ -142,14 +145,6 @@ const Sidebar = () => {
               onClick={() => handleMenuItemClick("Sports")}
             >
               <CDBSidebarMenuItem icon="gamepad">Sports</CDBSidebarMenuItem>
-            </NavLink>
-            <NavLink
-              exact
-              to="/"
-              activeClassName="activeClicked"
-              onClick={() => handleMenuItemClick("Others")}
-            >
-              <CDBSidebarMenuItem icon="ellipsis-h">Others</CDBSidebarMenuItem>
             </NavLink>
           </CDBSidebarMenu>
         </CDBSidebarContent>
