@@ -15,7 +15,6 @@ function TabBar() {
         <Tab label="Public Library">
           <div>
             <PublicLibrary />
-            <Sidebar/>
           </div>
         </Tab>
         <Tab label="Book Shelf">

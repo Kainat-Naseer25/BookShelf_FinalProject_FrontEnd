@@ -11,12 +11,14 @@ import ViewDescription from "../ViewDescription/ViewDescription";
 
 const PrivateLibrary = (props) => {
   const dispatch = useDispatch();
-  const { addModal, user, descriptionModal, cdata } = useSelector(
+  const { addModal, user, descriptionModal, cdata, editModal, edata} = useSelector(
     (state) => ({
       addModal: state.appReducer.addModal,
       user: state.appReducer.user,
       descriptionModal: state.appReducer.descriptionModal,
       cdata: state.appReducer.cdata,
+      editModal: state.appReducer.editModal,
+      edata: state.appReducer.edata
     })
   );
 
@@ -38,7 +40,7 @@ const PrivateLibrary = (props) => {
   if (error) return `An error has occurred: ${error.message}`;
 
   return (
-    <div>
+    <div className="dashboard">
       {data && data.length === 0 && <p>Currently No Books in Private Library</p>}
       <span className="customCursor" onClick={addBook}>
         <p className="addbooks"> Click to Add Books </p>
@@ -53,6 +55,7 @@ const PrivateLibrary = (props) => {
         />
       </span>
       {addModal && <DataForm show={showModal} />}
+      {editModal && <DataForm show={editModal} data={edata} />}
       <CardGroup>
         <Row className="mainRow">
           {data.map((key, index) => (
