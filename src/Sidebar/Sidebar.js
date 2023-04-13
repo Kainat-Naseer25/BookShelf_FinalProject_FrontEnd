@@ -19,6 +19,14 @@ const Sidebar = () => {
   };
 
   const [scrolled, setScrolled] = useState(false);
+  const [searchResults, setSearchResults] = useState([]);
+
+  function handleSearch(searched) {
+    setSearchResults(searched);
+    dispatch({ type: "MENU", payload: "Search" });
+    dispatch({ type: "SEARCH", payload: searchResults });
+    console.log("SEARCH", searchResults);
+  }
 
   function handleSearch(searched) {
     dispatch({ type: "SEARCH", payload: {menu: "Search" , search: searched }});

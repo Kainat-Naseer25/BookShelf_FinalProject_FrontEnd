@@ -88,8 +88,6 @@ const PublicLibrary = () => {
     search: state.appReducer.search,
   }));
 
-  console.log(menu);
-
   useEffect(() => {
     dispatch({ type: "TYPE", payload: "public" });
   }, []);
