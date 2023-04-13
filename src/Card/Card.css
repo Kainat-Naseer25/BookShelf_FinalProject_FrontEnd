@@ -54,6 +54,12 @@
   padding-right: 100px;
   text-align: center;
 }
+
+.alert{
+  text-align: center;
+  align-items: center;
+  align-content: center;
+}
 /* .page{
   background: linear-gradient(to left,  #733ad525, #d53a9c25);
 } */
@@ -83,4 +89,11 @@
   left: 50%;
   width: 80%;
   transform: translateX(-50%);
+}
+
+.isLoading .spinner-border {
+  background-image: linear-gradient(to right, #ff8a00, #da1b60);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }

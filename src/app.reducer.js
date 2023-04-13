@@ -5,7 +5,9 @@ const initalState = {
   descriptionModal: false,
   addModal: false,
   cdata: "",
-  type:"public"
+  type:"public",
+  alert: false,
+  msg:""
 };
 
 export function appReducer(state = initalState, action) {
@@ -22,6 +24,8 @@ export function appReducer(state = initalState, action) {
       };
     case "ADD-MODAL":
       return { ...state, addModal: action.payload };
+      case "ALERT":
+      return { ...state, alert: action.payload.alert, msg: action.payload.msg };
     case "TYPE":
       return { ...state, type: action.payload };
     case "LOGOUT":
