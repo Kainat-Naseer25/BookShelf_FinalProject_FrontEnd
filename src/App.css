@@ -6,6 +6,11 @@
   padding-right: 150px;
   border-radius: 100px;
 }
+.topbar{
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
 
 .appAside {
   width: 55%;
@@ -140,4 +145,13 @@
   font-size: large;
   font-weight: bolder;
   color: #6b5b95;
+}
+
+.bg{
+  align-items: center;
+  align-content: center;
+  text-align: center;
+}
+.dashboard{
+  padding: 80px;
 }

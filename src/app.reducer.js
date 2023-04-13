@@ -4,10 +4,13 @@ const initalState = {
   loginError: false,
   descriptionModal: false,
   addModal: false,
+  editModal: false,
   cdata: "",
   type:"public",
   alert: false,
-  msg:""
+  msg:"",
+  edata: "",
+  menu: "All"
 };
 
 export function appReducer(state = initalState, action) {
@@ -26,8 +29,12 @@ export function appReducer(state = initalState, action) {
       return { ...state, addModal: action.payload };
       case "ALERT":
       return { ...state, alert: action.payload.alert, msg: action.payload.msg };
+    case "EDIT-MODAL":
+      return { ...state, editModal: action.payload.editModal, edata: action.payload.edata };
     case "TYPE":
       return { ...state, type: action.payload };
+    case "MENU":
+      return { ...state, menu: action.payload };
     case "LOGOUT":
       return { ...state, user: null, logIn: false };
     default:

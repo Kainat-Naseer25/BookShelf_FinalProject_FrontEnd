@@ -4,7 +4,7 @@
   padding: 20px;
   background-color: gainsboro;
   border-radius: 5px;
-  box-shadow: linear-gradient(to left, #743ad5, #d53a9d);
+  box-shadow: linear-gradient(to left, #36b8f0, #e95897);
 }
 .addmodal-footer {
   display: flex;
@@ -16,7 +16,7 @@
   border-bottom-left-radius: 0.3rem;
 }
 .addmodalHead{
-  background: linear-gradient(to left, #743ad5, #d53a9d);
+  background: linear-gradient(to left, #36b8f0, #e95897);
   color:white;
 }
 .addformFieldButton {
@@ -28,7 +28,7 @@
   padding: 15px 70px;
   font-size: 0.8em;
   font-weight: 500;
-  background: linear-gradient(to left, #743ad5, #d53a9d);
+  background: linear-gradient(to left, #36b8f0, #e95897);
 }
 .addform-group {
   margin: 20px;
@@ -79,7 +79,7 @@ input:focus {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  background: linear-gradient(to left, #743ad5, #d53a9d);
+  background: linear-gradient(to left, #36b8f0, #e95897);
   border: 1px solid #ced4da;
   padding: 0.5rem 0.75rem;
   font-size: 1rem;
@@ -99,7 +99,7 @@ input:focus {
 
 .addbtn-primary:hover {
   color: #fff;
-  background: linear-gradient(to left, #743ad5, #d53a9d);
+  background: linear-gradient(to left, #36b8f0, #e95897);
   border-color: #6b5b95;
 }
 
@@ -150,6 +150,6 @@ input:focus {
 }
 
 .addform-check-input[type=radio]:checked {
-background: linear-gradient(to left, #743ad5, #d53a9d);
+background: linear-gradient(to left, #36b8f0, #e95897);
 border-color:white ;
 }

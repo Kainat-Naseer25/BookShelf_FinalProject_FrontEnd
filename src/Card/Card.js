@@ -1,5 +1,5 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import React from "react";
+import React, { useState } from "react";
 import lock from "./lock.png";
 import unlock from "./unlock.png";
 import edit from "./edit.png";
@@ -18,19 +18,25 @@ import {
   CardText,
   Button,
 } from "reactstrap";
-import { useMutation } from "react-query";
-import { useSelector, useDispatch } from "react-redux";
-import { QueryClient } from "react-query";
+import { useQuery, useMutation, useQueryClient, QueryClient } from "react-query";
+import { useDispatch, useSelector } from "react-redux";
+import ViewDescription from "../ViewDescription/ViewDescription";
+import DataForm from '../Form/form';
 
 function BooksCard(props) {
-  const { item } = props;
+  const {item} = props;
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editFormData, setEditFormData] = useState({});
+
   const dispatch = useDispatch();
   const queryClient = new QueryClient();
 
-  const { descriptionModal, user, type } = useSelector((state) => ({
+
+  const { descriptionModal, user, type, editModal } = useSelector((state) => ({
     descriptionModal: state.appReducer.descriptionModal,
     user: state.appReducer.user,
     type: state.appReducer.type,
+    editModal: state.appReducer.editModal,
   }));
 
   const viewDiscription = (item) => {
@@ -95,7 +101,13 @@ function BooksCard(props) {
       },
     }
   );
-
+  // Edit User Book
+  const handleEditBook = (item) => {
+    dispatch({ type: "EDIT-MODAL", payload: { editModal: !editModal, edata: item } });
+    // console.log(item);
+    // setShowEditModal(true);
+    // setEditFormData(item);
+  };
   const handleDeleteBook = (id) => {
     deleteBook.mutate(id);
   };
@@ -161,7 +173,7 @@ function BooksCard(props) {
           <div className="bottom">
             {type === "private" && (
               <div className="pb-2">
-                <span className="customCursor">
+                <span className="customCursor" onClick={() => handleEditBook(item)}>
                   <img src={edit} alt="Your Image" className="ed" /> Edit{" "}
                 </span>
                 <span className="px-3"> |</span>
@@ -187,7 +199,7 @@ function BooksCard(props) {
         </CardBody>
       </Card>
     </Col>
-  );
+  )
 }
 
 export default BooksCard;

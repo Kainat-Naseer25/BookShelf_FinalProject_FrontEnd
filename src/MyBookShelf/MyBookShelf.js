@@ -26,19 +26,6 @@ const MyBookShelf = (props) => {
       (res) => res.json()
     )
   );
-  // if (isLoading) {
-  //   // dispatch({type: "ALERT", payload: {alert: true , msg: "loading"}});
-  //   // return <AlertModal />;
-  // };
-
-  // if (error) {
-  //   dispatch({type: "ALERT", payload: {alert: true , msg: "error"}});
-  //   return <AlertModal />;
-  // };
-
-  // if (error) {
-  //   dispatch({type: "ALERT", payload: {alert: false , msg: ""}});
-  // };
 
   return (
     <div>

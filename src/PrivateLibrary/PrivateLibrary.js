@@ -12,12 +12,16 @@ import { Alert, Spinner } from "react-bootstrap";
 
 const PrivateLibrary = (props) => {
   const dispatch = useDispatch();
-  const { addModal, user, descriptionModal, cdata } = useSelector((state) => ({
-    addModal: state.appReducer.addModal,
-    user: state.appReducer.user,
-    descriptionModal: state.appReducer.descriptionModal,
-    cdata: state.appReducer.cdata,
-  }));
+  const { addModal, user, descriptionModal, cdata, editModal, edata} = useSelector(
+    (state) => ({
+      addModal: state.appReducer.addModal,
+      user: state.appReducer.user,
+      descriptionModal: state.appReducer.descriptionModal,
+      cdata: state.appReducer.cdata,
+      editModal: state.appReducer.editModal,
+      edata: state.appReducer.edata
+    })
+  );
 
   useEffect(() => {
     dispatch({ type: "TYPE", payload: "private" });
@@ -48,6 +52,7 @@ const PrivateLibrary = (props) => {
         />
       </span>
       {addModal && <DataForm show={showModal} />}
+      {editModal && <DataForm show={editModal} data={edata} />}
       {isLoading && (
         <div className="m-5 d-flex align-items-center justify-content-center">
           <Spinner animation="border" />
