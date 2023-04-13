@@ -160,7 +160,7 @@ function BooksCard(props) {
             title="Remove from My BookShelf"
             onClick={() => removefromMyBookShelf(item._id)}
           />
-        ) : (
+        ) : logIn ? (
           <img
             src={addicon}
             alt="Your Image"
@@ -168,6 +168,8 @@ function BooksCard(props) {
             title="Add to My BookShelf"
             onClick={() => addtoMyBookShelf(item._id)}
           />
+        ) : (
+          <></>
         )}
         <CardBody>
           <CardTitle tag="h5">{item.BookName}</CardTitle>
