@@ -1,12 +1,14 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useEffect, useState } from "react";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import { useMutation } from "react-query";
+import { QueryClient, useMutation } from "react-query";
 import axios from "axios";
 import "./form.css";
 import { useSelector, useDispatch } from "react-redux";
+const queryClient = new QueryClient();
 
 const DataForm = (props) => {
+
   const data = props.data;
   console.log(data);
   const [modal, setModal] = useState(true);
@@ -42,35 +44,48 @@ const DataForm = (props) => {
     }
   }, [data]);
 
-  const mutation = useMutation((body) => {
-    console.log("mutation", addedBy);
-    console.log(body);
-    if (!data){
-      return axios.post("http://localhost:8000/crud/books/create", {
-        BookName: body.book,
-        Author: body.author,
-        Rating: body.rating,
-        Price: body.price,
-        ISBN: body.ISBN,
-        visibility: body.access,
-        Category: body.category,
-        AddedBy: body.addedBy,
-        CoverImage: body.image
-      });
-    }
-    else{
-      return axios.put(`http://localhost:8000/crud/books/update/${data._id}`, {
-        BookName: body.book,
-        Author: body.author,
-        Rating: body.rating,
-        Price: body.price,
-        ISBN: body.ISBN,
-        visibility: body.access,
-        Category: body.category,
-        AddedBy: body.addedBy,
-        CoverImage: body.image
-      });
-    }
+  const mutation = useMutation({
+    mutationFn: (body) => {
+      console.log("mutation", addedBy);
+      console.log(body);
+      if (!data) {
+        return axios.post("http://localhost:8000/crud/books/create", {
+          BookName: body.book,
+          Author: body.author,
+          Rating: body.rating,
+          Price: body.price,
+          ISBN: body.ISBN,
+          visibility: body.access,
+          Category: body.category,
+          AddedBy: body.addedBy,
+          CoverImage: body.image,
+        });
+      } else {
+        return axios.put(
+          `http://localhost:8000/crud/books/update/${data._id}`,
+          {
+            BookName: body.book,
+            Author: body.author,
+            Rating: body.rating,
+            Price: body.price,
+            ISBN: body.ISBN,
+            visibility: body.access,
+            Category: body.category,
+            AddedBy: body.addedBy,
+            CoverImage: body.image,
+          }
+        );
+      }
+    },
+    onSettled: (data, error) => {
+      queryClient.invalidateQueries("myprivateData");
+
+      if (error) {
+        console.log("Error occurred:", error);
+      } else {
+        console.log("Mutation succeeded:", data);
+      }
+    },
   });
 
   const toggle = () => {

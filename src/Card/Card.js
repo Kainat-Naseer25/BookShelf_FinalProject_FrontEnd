@@ -82,7 +82,7 @@ function BooksCard(props) {
         body: JSON.stringify({ bookId: bookId }),
       }).then((res) => res.json()),
     {
-      onSuccess: (data) => {
+      onSettled: (data) => {
         queryClient.invalidateQueries("bookshelf");
         console.log("Book removed from shelf", data);
       },
@@ -101,9 +101,7 @@ function BooksCard(props) {
       return res.json();
     },
     {
-      onSuccess: (data, variables) => {
-        // update the cache with the server response
-        queryClient.setQueryData("myprivateData", data);
+      onSettled: (data, variables) => {
 
         // optionally, you can refetch the data to ensure it is up-to-date
         queryClient.invalidateQueries("myprivateData");
